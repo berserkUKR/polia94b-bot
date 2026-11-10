@@ -64,7 +64,7 @@ def main():
             send("Нових згадок немає. Бот працює.")
         return
 
-    lines = ["📰 Нове про проспект Поля / ЖК Центральний:\n"]
+    lines = ["📰 Нове про проспект Поля:\n"]
     for title, (link, _) in items:
         lines.append(f"• {title}\n{link}\n")
     send("\n".join(lines))
