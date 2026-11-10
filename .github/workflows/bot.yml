@@ -1,0 +1,18 @@
+name: Daily info
+on:
+  schedule:
+    - cron: "0 4 * * *"   # 06:00 за Києвом
+    - cron: "0 7 * * *"   # 09:00 за Києвом
+  workflow_dispatch:
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - run: python bot.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
