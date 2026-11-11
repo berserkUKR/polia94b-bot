@@ -381,6 +381,57 @@ def status_message(group_data, now):
             f"Завтра: {mode(tomorrow)}")
 
 
+# ---- Зміни графіка ----
+
+def day_signature(date, day):
+    outs = [[a.isoformat(), b.isoformat()] for a, b in day_outages(day)]
+    return f"{date.isoformat()}|" + json.dumps([day.get("status"), outs])
+
+
+def day_schedule_body(day, date):
+    status = day.get("status")
+    if status != "ScheduleApplies":
+        return STATUS_TEXT.get(status, f"Статус: {status}")
+    intervals = day_outages(day)
+    if not intervals:
+        return STATUS_TEXT["NoOutages"]
+    lines = []
+    total = timedelta()
+    for a, b, has_light in timeline(date, intervals):
+        if has_light:
+            lines.append(f"🟢 {hhmm(a)}–{hhmm(b)} світло є ({fmt_dur(a, b)})")
+        else:
+            lines.append(f"🔴 {hhmm(a)}–{hhmm(b)} світла немає ({fmt_dur(a, b)})")
+            total += b - a
+    h, m = divmod(int(total.total_seconds() // 60), 60)
+    lines.append("")
+    lines.append(f"Без світла всього: {h} год {m} хв")
+    return "\n".join(lines)
+
+
+def check_schedule_changes(state, group_data, now):
+    tomorrow_date = now.date() + timedelta(days=1)
+    checks = [
+        ("sig_today", group_data.get("today") or {}, now.date()),
+        ("sig_tomorrow", group_data.get("tomorrow") or {}, tomorrow_date),
+    ]
+    for key, day, date in checks:
+        sig = day_signature(date, day)
+        old = state.get(key)
+        state[key] = sig
+        # Перший запуск або інша дата: лише запам'ятовуємо, без сповіщення
+        if old is None or old.split("|", 1)[0] != date.isoformat() or old == sig:
+            continue
+        old_status = json.loads(old.split("|", 1)[1])[0]
+        if key == "sig_tomorrow" and old_status != "ScheduleApplies" \
+                and day.get("status") == "ScheduleApplies":
+            header = f"📅 Опубліковано графік на завтра, {date:%d.%m}"
+        else:
+            which = "на сьогодні" if key == "sig_today" else "на завтра"
+            header = f"⚠️ Графік {which} змінився, {date:%d.%m}"
+        send(f"{header}\n\n{day_schedule_body(day, date)}")
+
+
 # ---- Автооновлюване повідомлення-табло ----
 
 def board_next_event(group_data, now):
@@ -429,6 +480,20 @@ def status_board_text(group_data, now):
                 lines.append(f"🔴 {hhmm(a)}–{hhmm(b)}")
         else:
             lines.append("🟢 відключень немає")
+
+    tomorrow = group_data.get("tomorrow") or {}
+    lines.append("")
+    if tomorrow.get("status") == "ScheduleApplies":
+        t_date = now.date() + timedelta(days=1)
+        lines.append(f"Відключення на завтра ({t_date:%d.%m}):")
+        t_outs = [(a, b) for a, b, has in timeline(t_date, day_outages(tomorrow)) if not has]
+        if t_outs:
+            for a, b in t_outs:
+                lines.append(f"🔴 {hhmm(a)}–{hhmm(b)}")
+        else:
+            lines.append("🟢 відключень немає")
+    else:
+        lines.append("Графік на завтра ще не опубліковано")
 
     lines.append("")
     lines.append("Проспект Олександра Поля, 94 (вода, газ):")
@@ -566,6 +631,10 @@ def main():
             state["schedule_date"] = today_iso
         reminders(group_data, now, state)
     if group_data is not None:
+        try:
+            check_schedule_changes(state, group_data, now)
+        except Exception as e:
+            print("Помилка перевірки змін графіка:", e)
         try:
             update_status_board(state, group_data, now)
         except Exception as e:
