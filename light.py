@@ -437,8 +437,13 @@ def process_updates(state):
     r.raise_for_status()
     updates = r.json().get("result", [])
     print(f"Отримано оновлень від Telegram: {len(updates)}")
+    now_ts = datetime.now(TZ).timestamp()
     for u in updates:
         state["update_offset"] = u["update_id"] + 1
+        save_state(state)  # зберігаємо одразу, щоб команда не оброблялась повторно
+        msg = u.get("message") or (u.get("callback_query") or {}).get("message") or {}
+        if now_ts - msg.get("date", now_ts) > 3600:
+            continue  # команди старші за годину ігноруємо
         try:
             if "callback_query" in u:
                 handle_callback(u["callback_query"])
