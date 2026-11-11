@@ -626,7 +626,7 @@ def main():
             send("🚨 Діють аварійні (стабілізаційні) відключення для черги 5.2 (ЦЕК). "
                  "Планового графіка на сьогодні немає, слідкуйте за оновленнями.")
             state["emergency_date"] = today_iso
-        if MANUAL or (now.hour >= MORNING_HOUR and state.get("schedule_date") != today_iso):
+        if now.hour >= MORNING_HOUR and state.get("schedule_date") != today_iso:
             send(schedule_message(group_data, now))
             state["schedule_date"] = today_iso
         reminders(group_data, now, state)
