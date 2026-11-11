@@ -60,6 +60,7 @@
   "news:https://www.dnipro.media/novyny-dnipro/de-v-dnipri-nemaye-vody-11-lystopada-adresy/",
   "news:https://www.dnipro.media/novyny-dnipro/feed/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-11-lystopada-2026-test-175314/",
+  "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-12-lystopada-2026-onovlennya-2208-2/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-12-lystopada-2026-onovlennya-2208/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-12-lystopada-2026-onovlennya/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-12-lystopada-2026/",
@@ -108,6 +109,8 @@
   "tg:korbanofficial/13382",
   "tg:korbanofficial/13384"
  ],
- "update_offset": 875598921,
- "board_msg_id": 200
+ "update_offset": 875598927,
+ "board_msg_id": 203,
+ "sig_today": "2026-11-11|[\"ScheduleApplies\", [[\"2026-11-11T01:30:00+02:00\", \"2026-11-11T05:00:00+02:00\"], [\"2026-11-11T12:00:00+02:00\", \"2026-11-11T15:30:00+02:00\"], [\"2026-11-11T22:30:00+02:00\", \"2026-11-12T00:00:00+02:00\"]]]",
+ "sig_tomorrow": "2026-11-12|[\"ScheduleApplies\", [[\"2026-11-12T00:00:00+02:00\", \"2026-11-12T02:00:00+02:00\"], [\"2026-11-12T09:00:00+02:00\", \"2026-11-12T12:30:00+02:00\"], [\"2026-11-12T19:30:00+02:00\", \"2026-11-12T23:00:00+02:00\"]]]"
 }
