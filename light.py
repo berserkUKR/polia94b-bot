@@ -176,6 +176,8 @@ def schedule_message(group_data, now):
 
 def next_15_message(group_data, now):
     today, tomorrow = group_data.get("today"), group_data.get("tomorrow")
+    if (today or {}).get("status") == "EmergencyShutdowns":
+        return f"⏱ {now:%H:%M}. Діють аварійні відключення, за графіком час не визначено."
     intervals = merge(day_outages(today) + day_outages(tomorrow))
     tomorrow_known = (tomorrow or {}).get("status") == "ScheduleApplies"
     end_today = datetime.combine(now.date() + timedelta(days=1), time(0, 0), TZ)
@@ -355,12 +357,36 @@ def water_report():
     return "\n\n".join(lines)
 
 
+def status_message(group_data, now):
+    """Який режим діє сьогодні і завтра: аварійні, графік чи без відключень."""
+    today = group_data.get("today") or {}
+    tomorrow = group_data.get("tomorrow") or {}
+
+    def mode(day):
+        s = day.get("status")
+        if s == "EmergencyShutdowns":
+            return "🚨 аварійні (стабілізаційні) відключення, графік не застосовується"
+        if s == "ScheduleApplies":
+            n = len(merge(day_outages(day)))
+            if n == 0:
+                return "🟢 за графіком відключень немає"
+            return f"📅 за графіком {n} період(и) відключення"
+        if s == "WaitingForSchedule":
+            return "⏳ графік ще не опубліковано"
+        return f"статус: {s}"
+
+    return (f"ℹ️ Статус черги {GROUP} (ЦЕК), {now:%d.%m %H:%M}:\n\n"
+            f"Сьогодні: {mode(today)}\n"
+            f"Завтра: {mode(tomorrow)}")
+
+
 # ---- Кнопки в Telegram ----
 # Бот перевіряє нові команди й натискання при кожному запуску (раз на 15 хв).
 
 MENU_MARKUP = {"inline_keyboard": [
     [{"text": "📅 Графік на сьогодні", "callback_data": "schedule"}],
     [{"text": "⏱ Світло за 15 хв", "callback_data": "next15"}],
+    [{"text": "ℹ️ Статус зараз", "callback_data": "status"}],
     [{"text": "💧 Вода за адресою", "callback_data": "water"}],
     [{"text": "🔥 Газ за адресою", "callback_data": "gas"}],
 ]}
@@ -383,6 +409,8 @@ def handle_callback(cb):
         send(schedule_message(fetch_group(), datetime.now(TZ)))
     elif data == "next15":
         send(next_15_message(fetch_group(), datetime.now(TZ)))
+    elif data == "status":
+        send(status_message(fetch_group(), datetime.now(TZ)))
     elif data == "water":
         send(water_report())
     elif data == "gas":
@@ -430,6 +458,13 @@ def main():
         if MANUAL:
             print(json.dumps(group_data, ensure_ascii=False)[:1500])
         today_iso = now.date().isoformat()
+        if (group_data.get("today") or {}).get("status") == "EmergencyShutdowns" \
+                and state.get("emergency_date") != today_iso:
+            # Записуємо сиру відповідь у лог, щоб було видно формат даних
+            print("Аварійні відключення:", json.dumps(group_data, ensure_ascii=False)[:1500])
+            send("🚨 Діють аварійні (стабілізаційні) відключення для черги 5.2 (ЦЕК). "
+                 "Планового графіка на сьогодні немає, слідкуйте за оновленнями.")
+            state["emergency_date"] = today_iso
         if MANUAL or (now.hour >= MORNING_HOUR and state.get("schedule_date") != today_iso):
             send(schedule_message(group_data, now))
             state["schedule_date"] = today_iso
