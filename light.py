@@ -85,6 +85,7 @@ def send(text, markup=None):
         timeout=30,
     )
     r.raise_for_status()
+    return r.json()["result"]["message_id"]
 
 
 def fetch_group():
@@ -380,6 +381,94 @@ def status_message(group_data, now):
             f"Завтра: {mode(tomorrow)}")
 
 
+# ---- Автооновлюване повідомлення-табло ----
+
+def board_next_event(group_data, now):
+    """(чи немає зараз світла, (час, дія) найближчої зміни або None)."""
+    today = group_data.get("today") or {}
+    tomorrow = group_data.get("tomorrow") or {}
+    intervals = merge(day_outages(today) + day_outages(tomorrow))
+    tomorrow_known = tomorrow.get("status") == "ScheduleApplies"
+    end_today = datetime.combine(now.date() + timedelta(days=1), time(0, 0), TZ)
+    is_off = any(a <= now < b for a, b in intervals)
+    events = []
+    for a, b in intervals:
+        events.append((a, "вимкнення"))
+        if b == end_today and not tomorrow_known:
+            continue
+        events.append((b, "увімкнення"))
+    future = sorted((t, label) for t, label in events if t > now)
+    return is_off, (future[0] if future else None)
+
+
+def status_board_text(group_data, now):
+    today = group_data.get("today") or {}
+    status = today.get("status")
+    lines = [f"⚡ Світло, черга {GROUP} (ЦЕК), {now:%d.%m}", ""]
+
+    if status == "EmergencyShutdowns":
+        lines.append("Тип відключень: 🚨 стабілізаційні / аварійні, графік не застосовується")
+        lines.append("Світло зараз: час за графіком не визначено")
+    else:
+        is_off, nxt = board_next_event(group_data, now)
+        type_text = "📅 графікові" if status == "ScheduleApplies" else f"статус: {status}"
+        lines.append(f"Тип відключень: {type_text}")
+        lines.append("Світло зараз: " + ("🔴 немає" if is_off else "🟢 є"))
+        if nxt:
+            t, label = nxt
+            lines.append(f"Наступна зміна: о {hhmm(t)} — {label}")
+
+
+    if status == "ScheduleApplies":
+        intervals = day_outages(today)
+        lines.append("")
+        lines.append("Відключення на сьогодні:")
+        outages = [(a, b) for a, b, has in timeline(now.date(), intervals) if not has]
+        if outages:
+            for a, b in outages:
+                lines.append(f"🔴 {hhmm(a)}–{hhmm(b)}")
+        else:
+            lines.append("🟢 відключень немає")
+
+    lines.append("")
+    lines.append("Проспект Олександра Поля, 94 (вода, газ):")
+    matches = current_address_matches(limit=3)
+    if matches:
+        for url, text in matches:
+            lines.append(f"• {alert_kind(text)}: {text[:120]}")
+            lines.append(url)
+    else:
+        lines.append("у перевірених джерелах нічого не знайдено")
+
+    lines.append("")
+    lines.append(f"Оновлено: {now:%d.%m.%Y %H:%M}")
+    lines.append("Дані можуть відображатися із затримкою і бути не зовсім точними.")
+    return "\n".join(lines)
+
+
+def edit_message(message_id, text):
+    r = requests.post(
+        f"https://api.telegram.org/bot{TOKEN}/editMessageText",
+        json={"chat_id": CHAT_ID, "message_id": message_id, "text": text},
+        timeout=30,
+    )
+    if r.status_code == 400 and "not modified" in r.text:
+        return
+    r.raise_for_status()
+
+
+def update_status_board(state, group_data, now):
+    text = status_board_text(group_data, now)
+    msg_id = state.get("board_msg_id")
+    if msg_id:
+        try:
+            edit_message(msg_id, text)
+            return
+        except Exception as e:
+            print("Не вдалося редагувати табло, надсилаю нове:", e)
+    state["board_msg_id"] = send(text)
+
+
 # ---- Кнопки в Telegram ----
 # Бот перевіряє нові команди й натискання при кожному запуску (раз на 15 хв).
 
@@ -476,6 +565,11 @@ def main():
             send(schedule_message(group_data, now))
             state["schedule_date"] = today_iso
         reminders(group_data, now, state)
+    if group_data is not None:
+        try:
+            update_status_board(state, group_data, now)
+        except Exception as e:
+            print("Помилка табло:", e)
     try:
         check_addresses(state)
     except Exception as e:
