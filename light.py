@@ -16,7 +16,7 @@ URL = ("https://app.yasno.ua/api/blackout-service/public/shutdowns/"
 TZ = ZoneInfo("Europe/Kyiv")
 STATE_FILE = "state.json"
 LOOKAHEAD_MIN = 35   # слати нагадування, якщо до події лишилось не більше хвилин
-MORNING_HOUR = 6     # о котрій (за Києвом) слати графік на день
+MORNING_HOUR = 9     # о котрій (за Києвом) слати графік на день
 MANUAL = os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch"
 
 STATUS_TEXT = {
