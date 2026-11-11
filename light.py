@@ -503,7 +503,7 @@ def status_board_text(group_data, now):
             lines.append(f"• {alert_kind(text)}: {text[:120]}")
             lines.append(url)
     else:
-        lines.append("у перевірених джерелах нічого не знайдено")
+        lines.append("щодо аварійних відключень у перевірених джерелах нічого не знайдено")
 
     lines.append("")
     lines.append(f"Оновлено: {now:%d.%m.%Y %H:%M}")
