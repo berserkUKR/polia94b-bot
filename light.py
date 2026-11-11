@@ -435,7 +435,9 @@ def process_updates(state):
         timeout=30,
     )
     r.raise_for_status()
-    for u in r.json().get("result", []):
+    updates = r.json().get("result", [])
+    print(f"Отримано оновлень від Telegram: {len(updates)}")
+    for u in updates:
         state["update_offset"] = u["update_id"] + 1
         try:
             if "callback_query" in u:
