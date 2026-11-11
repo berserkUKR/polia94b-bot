@@ -25,6 +25,13 @@ STATUS_TEXT = {
     "EmergencyShutdowns": "Діють аварійні відключення, графік не застосовується.",
 }
 
+GAS_TEXT = (
+    "🔥 Автоматичної перевірки газу за адресою немає: для газу не знайдено "
+    "відкритого джерела з оголошеннями.\n"
+    "Аварійна служба Дніпрогазу: 104.\n"
+    "Контактний центр (з прес-релізу): (056) 78-78-104, (067) 62-63-104."
+)
+
 # ---- Аварії за адресою: вода, газ, інше ----
 # Адреса: проспект Олександра Поля, 94Б. Збігом вважаємо згадку вулиці
 # з номером 94 поруч (щоб не слати сповіщення про весь проспект).
@@ -50,6 +57,7 @@ TG_MSG_TEXT_RE = re.compile(
 )
 TAG_RE = re.compile(r"<[^>]+>")
 MAX_NEW_NEWS_PER_RUN = 40
+MAX_NEWS_ON_DEMAND = 20
 
 
 def load_state():
@@ -67,10 +75,13 @@ def save_state(state):
         json.dump(state, f, ensure_ascii=False, indent=1)
 
 
-def send(text):
+def send(text, markup=None):
+    payload = {"chat_id": CHAT_ID, "message_thread_id": THREAD_ID, "text": text}
+    if markup:
+        payload["reply_markup"] = markup
     r = requests.post(
         f"https://api.telegram.org/bot{TOKEN}/sendMessage",
-        json={"chat_id": CHAT_ID, "message_thread_id": THREAD_ID, "text": text},
+        json=payload,
         timeout=30,
     )
     r.raise_for_status()
@@ -121,23 +132,74 @@ def fmt_dur(a, b):
     return f"{h} год" if h else f"{m} хв"
 
 
+def timeline(day_date, intervals):
+    """Добу як список (початок, кінець, чи є світло) з відключеннями і без них."""
+    start = datetime.combine(day_date, time(0, 0), TZ)
+    end = start + timedelta(days=1)
+    items = []
+    cur = start
+    for a, b in merge(intervals):
+        a, b = max(a, start), min(b, end)
+        if a >= b:
+            continue
+        if cur < a:
+            items.append((cur, a, True))
+        items.append((a, b, False))
+        cur = b
+    if cur < end:
+        items.append((cur, end, True))
+    return items
+
+
 def schedule_message(group_data, now):
     today = group_data.get("today")
     title = f"⚡ Графік на сьогодні, {now:%d.%m}, черга {GROUP} (ЦЕК)"
     status = (today or {}).get("status")
     if status != "ScheduleApplies":
         return f"{title}\n\n" + STATUS_TEXT.get(status, f"Статус: {status}")
-    items = merge(day_outages(today))
-    if not items:
+    intervals = day_outages(today)
+    if not intervals:
         return f"{title}\n\n" + STATUS_TEXT["NoOutages"]
     lines = [title, ""]
     total = timedelta()
-    for a, b in items:
-        lines.append(f"🔴 {hhmm(a)}–{hhmm(b)} ({fmt_dur(a, b)})")
-        total += b - a
+    for a, b, has_light in timeline(now.date(), intervals):
+        if has_light:
+            lines.append(f"🟢 {hhmm(a)}–{hhmm(b)} світло є ({fmt_dur(a, b)})")
+        else:
+            lines.append(f"🔴 {hhmm(a)}–{hhmm(b)} світла немає ({fmt_dur(a, b)})")
+            total += b - a
     lines.append("")
-    lines.append(f"Разом без світла: {fmt_dur(now, now + total)}")
+    h, m = divmod(int(total.total_seconds() // 60), 60)
+    lines.append(f"Без світла всього: {h} год {m} хв")
     return "\n".join(lines)
+
+
+def next_15_message(group_data, now):
+    today, tomorrow = group_data.get("today"), group_data.get("tomorrow")
+    intervals = merge(day_outages(today) + day_outages(tomorrow))
+    tomorrow_known = (tomorrow or {}).get("status") == "ScheduleApplies"
+    end_today = datetime.combine(now.date() + timedelta(days=1), time(0, 0), TZ)
+    all_events = []
+    for a, b in intervals:
+        all_events.append((a, "🔴 вимкнуть світло"))
+        if b == end_today and not tomorrow_known:
+            continue  # невідомо, чи світло з'явиться опівночі
+        all_events.append((b, "🟢 увімкнуть світло"))
+    all_events.sort()
+    is_off = any(a <= now < b for a, b in intervals)
+    state = "🔴 зараз світла немає" if is_off else "🟢 зараз світло є"
+    head = f"⏱ {now:%H:%M}, {state}."
+    window_end = now + timedelta(minutes=15)
+    in_window = [(t, label) for t, label in all_events if now < t <= window_end]
+    if in_window:
+        body = "\n".join(f"{hhmm(t)} — {label}" for t, label in in_window)
+        return f"{head}\nЗа 15 хвилин (до {hhmm(window_end)}) за графіком:\n{body}"
+    future = [(t, label) for t, label in all_events if t > now]
+    if future:
+        t, label = future[0]
+        return (f"{head}\nЗа 15 хвилин змін за графіком немає. "
+                f"Наступна зміна о {hhmm(t)}: {label}.")
+    return f"{head}\nЗмін за графіком більше немає."
 
 
 def reminders(group_data, now, state):
@@ -259,6 +321,103 @@ def check_addresses(state):
     state["seen"] = sorted(seen)
 
 
+def current_address_matches(limit=5):
+    """Збіги з усіх джерел зараз, без урахування вже надісланих (для кнопки)."""
+    matches = []
+    try:
+        for _key, url, text in reversed(fetch_telegram_posts()):
+            if ADDRESS_RE.search(text) and OUTAGE_RE.search(text):
+                matches.append((url, text))
+    except Exception as e:
+        print("Telegram недоступний:", e)
+    try:
+        for link in fetch_news_links()[:MAX_NEWS_ON_DEMAND]:
+            try:
+                text = fetch_article(link)
+            except Exception:
+                continue
+            if ADDRESS_RE.search(text) and OUTAGE_RE.search(text):
+                matches.append((link, text))
+    except Exception as e:
+        print("Новини недоступні:", e)
+    return matches[:limit]
+
+
+def water_report():
+    matches = current_address_matches()
+    if not matches:
+        return ("За адресою проспект Олександра Поля, 94 у перевірених джерелах "
+                "зараз нічого не знайдено.")
+    lines = ["Знайдено в джерелах (дати в них не завжди є, перевірте за посиланням):"]
+    for url, text in matches:
+        snippet = text[:200] + ("…" if len(text) > 200 else "")
+        lines.append(f"{alert_kind(text)}: {snippet}\n{url}")
+    return "\n\n".join(lines)
+
+
+# ---- Кнопки в Telegram ----
+# Бот перевіряє нові команди й натискання при кожному запуску (раз на 15 хв).
+
+MENU_MARKUP = {"inline_keyboard": [
+    [{"text": "📅 Графік на сьогодні", "callback_data": "schedule"}],
+    [{"text": "⏱ Світло за 15 хв", "callback_data": "next15"}],
+    [{"text": "💧 Вода за адресою", "callback_data": "water"}],
+    [{"text": "🔥 Газ за адресою", "callback_data": "gas"}],
+]}
+
+
+def answer_callback(callback_id):
+    requests.post(
+        f"https://api.telegram.org/bot{TOKEN}/answerCallbackQuery",
+        json={"callback_query_id": callback_id},
+        timeout=30,
+    )
+
+
+def handle_callback(cb):
+    answer_callback(cb["id"])
+    if cb.get("message", {}).get("chat", {}).get("id") != CHAT_ID:
+        return
+    data = cb.get("data")
+    if data == "schedule":
+        send(schedule_message(fetch_group(), datetime.now(TZ)))
+    elif data == "next15":
+        send(next_15_message(fetch_group(), datetime.now(TZ)))
+    elif data == "water":
+        send(water_report())
+    elif data == "gas":
+        send(GAS_TEXT)
+
+
+def handle_message(msg):
+    if msg.get("chat", {}).get("id") != CHAT_ID:
+        return
+    text = (msg.get("text") or "").strip().lower()
+    if text.startswith("/menu") or text.startswith("/start"):
+        send("Оберіть, що показати:", MENU_MARKUP)
+
+
+def process_updates(state):
+    params = {"timeout": 0, "allowed_updates": json.dumps(["message", "callback_query"])}
+    if "update_offset" in state:
+        params["offset"] = state["update_offset"]
+    r = requests.get(
+        f"https://api.telegram.org/bot{TOKEN}/getUpdates",
+        params=params,
+        timeout=30,
+    )
+    r.raise_for_status()
+    for u in r.json().get("result", []):
+        state["update_offset"] = u["update_id"] + 1
+        try:
+            if "callback_query" in u:
+                handle_callback(u["callback_query"])
+            elif "message" in u:
+                handle_message(u["message"])
+        except Exception as e:
+            print("Помилка обробки оновлення:", e)
+
+
 def main():
     now = datetime.now(TZ)
     state = load_state()
@@ -279,6 +438,10 @@ def main():
         check_addresses(state)
     except Exception as e:
         print("Помилка перевірки адреси:", e)
+    try:
+        process_updates(state)
+    except Exception as e:
+        print("Помилка читання команд:", e)
     save_state(state)
 
 
