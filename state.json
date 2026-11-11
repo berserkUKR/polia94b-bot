@@ -25,6 +25,7 @@
   "news:https://dnepr.info/uk/news/osvitlennya-dlya-terapevtichnogo-sadu-rozrobka-kompaniji-z-dnipra-otrimala-premiyu-v-yevropi",
   "news:https://dnepr.info/uk/news/rozstrochka-v-chornu-p-yatnicyu-yak-porahuvati-komfortniy-platizh-poyasnyuye-rozetka",
   "news:https://dnepr.info/uk/news/u-centri-dnipra-planuyut-zbilshiti-kilkist-platnih-parkovok-yaki-vulici-u-spisku",
+  "news:https://dnepr.info/uk/news/u-dnipri-12-listopada-diyatimut-grafiki-vidklyuchennya-svitla-rozklad-dlya-vsih-cherg",
   "news:https://dnepr.info/uk/news/u-dnipri-na-bagatopoverhivci-z-yavivsya-masshtabniy-mural-iz-geometrichnim-ornamentom",
   "news:https://dnepr.info/uk/news/u-dnipri-skoriguvali-grafiki-vidklyuchennya-svitla-shcho-vidomo",
   "news:https://dnepr.info/uk/news/u-krivomu-rozi-perehozhi-zatrimali-vodiya-yakiy-namagavsya-vtekti-pislya-dtp",
@@ -56,6 +57,7 @@
   "news:https://www.dnipro.media/novyny-dnipro/de-v-dnipri-nemaye-vody-11-lystopada-adresy/",
   "news:https://www.dnipro.media/novyny-dnipro/feed/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-11-lystopada-2026-test-175314/",
+  "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-12-lystopada-2026/",
   "news:https://www.dnipro.media/novyny-dnipro/na-dnipropetrovshhyni-zrosly-nadhodzhennya-vid-turystychnogo-zboru-skilky-splatyly-za-dev-yat-misyatsiv-2026-roku/",
   "news:https://www.dnipro.media/novyny-dnipro/page/2/",
   "news:https://www.dnipro.media/novyny-dnipro/page/3/",
@@ -95,7 +97,8 @@
   "tg:korbanofficial/13378",
   "tg:korbanofficial/13379",
   "tg:korbanofficial/13380",
-  "tg:korbanofficial/13381"
+  "tg:korbanofficial/13381",
+  "tg:korbanofficial/13382"
  ],
- "update_offset": 875598916
+ "update_offset": 875598921
 }
