@@ -8,9 +8,9 @@ import requests
 TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = -1002498237717
 THREAD_ID = 162
-GROUP = "3.1"
+GROUP = "5.2"
 URL = ("https://app.yasno.ua/api/blackout-service/public/shutdowns/"
-       "regions/3/dsos/301/planned-outages")
+       "regions/3/dsos/303/planned-outages")
 TZ = ZoneInfo("Europe/Kyiv")
 STATE_FILE = "state.json"
 LOOKAHEAD_MIN = 35   # слати нагадування, якщо до події лишилось не більше хвилин
@@ -94,7 +94,7 @@ def fmt_dur(a, b):
 
 def schedule_message(group_data, now):
     today = group_data.get("today")
-    title = f"⚡ Графік на сьогодні, {now:%d.%m}, черга {GROUP} (ДТЕК)"
+    title = f"⚡ Графік на сьогодні, {now:%d.%m}, черга {GROUP} (ЦЕК)"
     status = (today or {}).get("status")
     if status != "ScheduleApplies":
         return f"{title}\n\n" + STATUS_TEXT.get(status, f"Статус: {status}")
