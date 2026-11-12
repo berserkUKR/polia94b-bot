@@ -419,17 +419,39 @@ def check_schedule_changes(state, group_data, now):
         sig = day_signature(date, day)
         old = state.get(key)
         state[key] = sig
-        # Перший запуск або інша дата: лише запам'ятовуємо, без сповіщення
-        if old is None or old.split("|", 1)[0] != date.isoformat() or old == sig:
+        note_key = key.replace("sig_", "note_")
+        # Перший запуск або інша дата: лише запам'ятовуємо, без нотатки
+        if old is None or old.split("|", 1)[0] != date.isoformat():
+            state.pop(note_key, None)
+            continue
+        if old == sig:
             continue
         old_status = json.loads(old.split("|", 1)[1])[0]
+        when = now.strftime("%H:%M")
         if key == "sig_tomorrow" and old_status != "ScheduleApplies" \
                 and day.get("status") == "ScheduleApplies":
-            header = f"📅 Опубліковано графік на завтра, {date:%d.%m}"
+            state[note_key] = f"📅 Опубліковано графік на завтра о {when}"
         else:
             which = "на сьогодні" if key == "sig_today" else "на завтра"
-            header = f"⚠️ Графік {which} змінився, {date:%d.%m}"
-        send(f"{header}\n\n{day_schedule_body(day, date)}")
+            state[note_key] = f"⚠️ Графік {which} змінився о {when}"
+
+
+def schedule_lines(day, date):
+    """Рядки повного графіка на добу для табло."""
+    intervals = day_outages(day)
+    if not intervals:
+        return ["🟢 відключень немає"]
+    out = []
+    total = timedelta()
+    for a, b, has_light in timeline(date, intervals):
+        if has_light:
+            out.append(f"🟢 {hhmm(a)}–{hhmm(b)} світло є")
+        else:
+            out.append(f"🔴 {hhmm(a)}–{hhmm(b)} світла немає")
+            total += b - a
+    h, m = divmod(int(total.total_seconds() // 60), 60)
+    out.append(f"Без світла всього: {h} год {m} хв")
+    return out
 
 
 # ---- Автооновлюване повідомлення-табло ----
@@ -452,7 +474,7 @@ def board_next_event(group_data, now):
     return is_off, (future[0] if future else None)
 
 
-def status_board_text(group_data, now):
+def status_board_text(group_data, now, state):
     today = group_data.get("today") or {}
     status = today.get("status")
     lines = [f"⚡ Світло, черга {GROUP} (ЦЕК), {now:%d.%m}", ""]
@@ -471,27 +493,20 @@ def status_board_text(group_data, now):
 
 
     if status == "ScheduleApplies":
-        intervals = day_outages(today)
         lines.append("")
-        lines.append("Відключення на сьогодні:")
-        outages = [(a, b) for a, b, has in timeline(now.date(), intervals) if not has]
-        if outages:
-            for a, b in outages:
-                lines.append(f"🔴 {hhmm(a)}–{hhmm(b)}")
-        else:
-            lines.append("🟢 відключень немає")
+        if state.get("note_today"):
+            lines.append(state["note_today"])
+        lines.append(f"Графік на сьогодні ({now:%d.%m}):")
+        lines.extend(schedule_lines(today, now.date()))
 
     tomorrow = group_data.get("tomorrow") or {}
+    t_date = now.date() + timedelta(days=1)
     lines.append("")
     if tomorrow.get("status") == "ScheduleApplies":
-        t_date = now.date() + timedelta(days=1)
-        lines.append(f"Відключення на завтра ({t_date:%d.%m}):")
-        t_outs = [(a, b) for a, b, has in timeline(t_date, day_outages(tomorrow)) if not has]
-        if t_outs:
-            for a, b in t_outs:
-                lines.append(f"🔴 {hhmm(a)}–{hhmm(b)}")
-        else:
-            lines.append("🟢 відключень немає")
+        if state.get("note_tomorrow"):
+            lines.append(state["note_tomorrow"])
+        lines.append(f"Графік на завтра ({t_date:%d.%m}):")
+        lines.extend(schedule_lines(tomorrow, t_date))
     else:
         lines.append("Графік на завтра ще не опубліковано")
 
@@ -523,7 +538,7 @@ def edit_message(message_id, text):
 
 
 def update_status_board(state, group_data, now):
-    text = status_board_text(group_data, now)
+    text = status_board_text(group_data, now, state)
     msg_id = state.get("board_msg_id")
     if msg_id:
         try:
