@@ -21,6 +21,7 @@
   "news:https://dnepr.info/uk/news-cat/sport",
   "news:https://dnepr.info/uk/news-cat/ukraine-news",
   "news:https://dnepr.info/uk/news-cat/world-news",
+  "news:https://dnepr.info/uk/news/dniproid-uzhe-dostupniy-yak-oformiti-ta-yaki-dokumenti-vin-mistit",
   "news:https://dnepr.info/uk/news/goroskop-na-12-listopada-dlya-vsih-znakiv-zodiaku",
   "news:https://dnepr.info/uk/news/grafik-vidklyuchennya-svitla-u-dnipri-na-10-listopada-onovlena-informaciya",
   "news:https://dnepr.info/uk/news/masshtabne-vidklyuchennya-vodi-u-dnipri-10-listopada-yaka-situaciya-na-ranok",
@@ -99,6 +100,7 @@
   "news:https://www.dnipro.media/novyny-dnipro/u-dnipri-zastosovuyut-ekstreni-vidklyuchennya-elektroenergiyi-2026/",
   "news:https://www.dnipro.media/novyny-dnipro/u-dnipri-zbilshuyut-finansuvannya-kulturnoyi-programy-na-7-1-mln-grn-na-shho-spryamuyut-koshty/",
   "news:https://www.dnipro.media/novyny-dnipro/u-dnipri-zminyly-ruh-transportu-na-zahidnomu-shlyahu-staromu-mostu-ta-vulytsi-korolevy-yelyzavety-ii/",
+  "news:https://www.dnipro.media/novyny-dnipro/u-dnipropetrovskij-oblasti-zrosly-tsiny-na-orendu-kvartyr-skilky-koshtuye-zhytlo-u-zhovtni/",
   "news:https://www.dnipro.media/novyny-dnipro/u-kam-yanskomu-rajoni-do-byudzhetu-styagnuly-ponad-1-mln-grn-za-vyrubku-lisu/",
   "news:https://www.dnipro.media/novyny-dnipro/vybuh-u-dnipri-shho-vidomo8900/",
   "news:https://www.dnipro.media/oferta/",
@@ -129,7 +131,8 @@
   "tg:korbanofficial/13381",
   "tg:korbanofficial/13382",
   "tg:korbanofficial/13384",
-  "tg:korbanofficial/13385"
+  "tg:korbanofficial/13385",
+  "tg:korbanofficial/13386"
  ],
  "update_offset": 875598929,
  "board_msg_id": 203,
