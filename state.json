@@ -44,6 +44,7 @@
   "news:https://dnepr.info/uk/news/na-dnipropetrovshchini-oficera-zsu-pidozryuyut-u-poborah-iz-viyskovih-za-boyovi-viplati",
   "news:https://dnepr.info/uk/news/na-dnipropetrovshchini-troye-lyudey-potrapili-do-likarni-pislya-vzhivannya-v-yalenoji-ribi",
   "news:https://dnepr.info/uk/news/na-dnipropetrovshchini-zhinka-narodila-p-yatu-ditinu-po-dorozi-do-likarni-2",
+  "news:https://dnepr.info/uk/news/na-zh-m-pridniprovskiy-u-dnipri-skarzhatsya-na-zhinku-yaka-nishchat-pribudinkovi-klumbi",
   "news:https://dnepr.info/uk/news/nimeckiy-lidl-viv-peremovini-pro-kupivlyu-atb-shcho-vidomo",
   "news:https://dnepr.info/uk/news/ob-yekt-naftogazu-na-dnipropetrovshchini-zaznav-ataki-shcho-vidomo-pro-naslidki",
   "news:https://dnepr.info/uk/news/oselivsya-bilya-zapravki-ta-ne-mozhe-vidletiti-u-kam-yanskomu-shukayut-dopomogu-dlya-leleki",
@@ -218,7 +219,7 @@
  "update_offset": 875598932,
  "board_msg_id": 203,
  "sig_today": "2026-11-13|[\"ScheduleApplies\", [[\"2026-11-13T06:00:00+02:00\", \"2026-11-13T09:30:00+02:00\"], [\"2026-11-13T13:00:00+02:00\", \"2026-11-13T20:00:00+02:00\"], [\"2026-11-13T23:30:00+02:00\", \"2026-11-14T00:00:00+02:00\"]]]",
- "sig_tomorrow": "2026-11-14|[\"WaitingForSchedule\", []]",
+ "sig_tomorrow": "2026-11-14|[\"ScheduleApplies\", [[\"2026-11-14T00:00:00+02:00\", \"2026-11-14T06:30:00+02:00\"], [\"2026-11-14T10:00:00+02:00\", \"2026-11-14T17:00:00+02:00\"], [\"2026-11-14T20:30:00+02:00\", \"2026-11-15T00:00:00+02:00\"]]]",
  "note_today": "⚠️ Графік на сьогодні змінився о 10:30",
- "note_tomorrow": "⚠️ Графік на завтра змінився о 00:05"
+ "note_tomorrow": "📅 Опубліковано графік на завтра о 22:20"
 }
