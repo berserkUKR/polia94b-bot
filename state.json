@@ -8,7 +8,8 @@
   "off-2026-11-12T16:00:00+02:00",
   "on-2026-11-12T22:00:00+02:00",
   "on-2026-11-12T23:00:00+02:00",
-  "off-2026-11-13T06:00:00+02:00"
+  "off-2026-11-13T06:00:00+02:00",
+  "on-2026-11-13T09:30:00+02:00"
  ],
  "addr_init": true,
  "seen": [
@@ -114,6 +115,7 @@
   "news:https://www.dnipro.media/novyny-dnipro/page/343/",
   "news:https://www.dnipro.media/novyny-dnipro/page/344/",
   "news:https://www.dnipro.media/novyny-dnipro/page/345/",
+  "news:https://www.dnipro.media/novyny-dnipro/page/346/",
   "news:https://www.dnipro.media/novyny-dnipro/ponad-10-atak-na-dnipropetrovshhynu-rosiyany-byly-po-troh-rajonah/",
   "news:https://www.dnipro.media/novyny-dnipro/shestero-lyudej-poraneno-vnaslidok-rosijskyh-atak-na-dnipropetrovshhynu/",
   "news:https://www.dnipro.media/novyny-dnipro/syly-ppo-zbyly-dev-yat-vorozhyh-bpla-nad-dnipropetrovshhynoyu/",
@@ -131,6 +133,7 @@
   "news:https://www.dnipro.media/novyny-dnipro/u-dnipri-skasuvaly-ekstreni-vidklyuchennya-ta-povernuly-pogodynni-2026/",
   "news:https://www.dnipro.media/novyny-dnipro/u-dnipri-sud-zobov-yazav-znesty-nezakonnu-avtostoyanku/",
   "news:https://www.dnipro.media/novyny-dnipro/u-dnipri-vidklyuchyly-vodu-na-shistoh-vulytsyah-ta-diyut-ekstreni-vidklyuchennya-svitla/",
+  "news:https://www.dnipro.media/novyny-dnipro/u-dnipri-za-ponad-2-2-mln-grn-planuyut-vidremontuvaty-systemu-pozhezhnoyi-bezpeky-v-budivli-miskogo-bti/",
   "news:https://www.dnipro.media/novyny-dnipro/u-dnipri-zapustyly-tsyfrovyj-identyfikator-meshkantsya-dniproid-yak-jogo-oformyty/",
   "news:https://www.dnipro.media/novyny-dnipro/u-dnipri-zastosovani-ekstreni-vidklyuchennya-elektroenergiyi-2026-2/",
   "news:https://www.dnipro.media/novyny-dnipro/u-dnipri-zastosovuyut-ekstreni-vidklyuchennya-elektroenergiyi-2026-2/",
