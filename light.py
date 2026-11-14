@@ -528,15 +528,24 @@ def edit_message(message_id, text):
 
 
 def update_status_board(state, group_data, now):
+    """Оновлює одне закріплене табло. Нове повідомлення шлеться лише
+    якщо старе справді видалено; при інших помилках (мережа, ліміти)
+    просто чекаємо наступного запуску, щоб не дублювати табло."""
     text = status_board_text(group_data, now, state)
     msg_id = state.get("board_msg_id")
-    if msg_id:
-        try:
-            edit_message(msg_id, text)
-            return
-        except Exception as e:
-            print("Не вдалося редагувати табло, надсилаю нове:", e)
-    state["board_msg_id"] = send(text)
+    if not msg_id:
+        state["board_msg_id"] = send(text)
+        return
+    try:
+        edit_message(msg_id, text)
+    except requests.HTTPError as e:
+        body = e.response.text if e.response is not None else ""
+        if "message to edit not found" in body or "message can't be edited" in body:
+            state["board_msg_id"] = send(text)
+        else:
+            print("Табло не оновлено (залишаю старе):", e)
+    except Exception as e:
+        print("Табло не оновлено (мережева помилка):", e)
 
 
 # ---- Кнопки в Telegram ----
