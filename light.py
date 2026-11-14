@@ -499,16 +499,6 @@ def status_board_text(group_data, now, state):
         lines.append(f"Графік на сьогодні ({now:%d.%m}):")
         lines.extend(schedule_lines(today, now.date()))
 
-    tomorrow = group_data.get("tomorrow") or {}
-    t_date = now.date() + timedelta(days=1)
-    lines.append("")
-    if tomorrow.get("status") == "ScheduleApplies":
-        if state.get("note_tomorrow"):
-            lines.append(state["note_tomorrow"])
-        lines.append(f"Графік на завтра ({t_date:%d.%m}):")
-        lines.extend(schedule_lines(tomorrow, t_date))
-    else:
-        lines.append("Графік на завтра ще не опубліковано")
 
     lines.append("")
     lines.append("Проспект Олександра Поля, 94 (вода, газ):")
