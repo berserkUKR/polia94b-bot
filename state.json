@@ -35,6 +35,7 @@
   "news:https://dnepr.info/uk/news-cat/sport",
   "news:https://dnepr.info/uk/news-cat/ukraine-news",
   "news:https://dnepr.info/uk/news-cat/world-news",
+  "news:https://dnepr.info/uk/news/bez-opadiv-i-do-100-yakoyu-bude-pogoda-u-dnipri-ta-oblasti-15-listopada",
   "news:https://dnepr.info/uk/news/chi-bude-mobilniy-zv-yazok-pid-chas-trivalih-vidklyuchen-svitla-na-dnipropetrovshchini",
   "news:https://dnepr.info/uk/news/dlya-dnipra-ogolosili-podviyne-poperedzhennya-pro-nebezpechni-pogodni-umovi",
   "news:https://dnepr.info/uk/news/dniproid-uzhe-dostupniy-yak-oformiti-ta-yaki-dokumenti-vin-mistit",
@@ -272,7 +273,9 @@
   "tg:korbanofficial/13403",
   "tg:korbanofficial/13404",
   "tg:korbanofficial/13405",
-  "tg:korbanofficial/13406"
+  "tg:korbanofficial/13406",
+  "tg:korbanofficial/13407",
+  "tg:korbanofficial/13408"
  ],
  "update_offset": 875598933,
  "board_msg_id": 228,
