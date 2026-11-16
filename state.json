@@ -395,9 +395,7 @@
  ],
  "update_offset": 875598933,
  "board_msg_id": 228,
- "sig_today": "2026-11-16|[\"EmergencyShutdowns\", []]",
- "sig_tomorrow": "2026-11-17|[\"EmergencyShutdowns\", []]",
- "note_today": "⚠️ Графік на сьогодні змінився о 18:15",
- "emergency_date": "2026-11-16",
- "note_tomorrow": "⚠️ Графік на завтра змінився о 18:15"
+ "sig_today": "2026-11-17|[\"EmergencyShutdowns\", []]",
+ "sig_tomorrow": "2026-11-18|[\"EmergencyShutdowns\", []]",
+ "emergency_date": "2026-11-17"
 }
