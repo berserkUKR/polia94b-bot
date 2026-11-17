@@ -733,8 +733,10 @@ def process_updates(state):
         state["update_offset"] = u["update_id"] + 1
         save_state(state)  # зберігаємо одразу, щоб команда не оброблялась повторно
         msg = u.get("message") or (u.get("callback_query") or {}).get("message") or {}
-        if now_ts - msg.get("date", now_ts) > 3600:
-            continue  # команди старші за годину ігноруємо
+        # Команди старші за годину ігноруємо. Натискання кнопок не перевіряємо:
+        # дата їхнього повідомлення — це дата створення табло, вона завжди стара.
+        if "message" in u and now_ts - msg.get("date", now_ts) > 3600:
+            continue
         try:
             if "callback_query" in u:
                 handle_callback(u["callback_query"])
