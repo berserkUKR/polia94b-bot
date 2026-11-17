@@ -631,6 +631,12 @@ def status_board_text(group_data, now, state):
         lines.append("щодо аварійних відключень у перевірених джерелах нічого не знайдено")
 
     lines.append("")
+    lines.append("📞 Контакти аварійних служб:")
+    lines.append("⚡ ЦЕК: (056) 736-25-30")
+    lines.append("🔥 Дніпрогаз (аварії): 104 або 0 800 502 104")
+    lines.append("💧 Водоканал: (056) 732-12-12")
+    lines.append("🏢 ЖЕК Центрального району: 067 752 50 92")
+    lines.append("")
     lines.append(f"Оновлено: {now:%d.%m.%Y %H:%M}")
     lines.append("Дані можуть відображатися із затримкою і бути не зовсім точними.")
     return "\n".join(lines)
@@ -657,14 +663,14 @@ def update_status_board(state, group_data, now):
     text = status_board_text(group_data, now, state)
     msg_id = state.get("board_msg_id")
     if not msg_id:
-        state["board_msg_id"] = send(text, MENU_MARKUP)
+        state["board_msg_id"] = send(text)
         return
     try:
-        edit_message(msg_id, text, MENU_MARKUP)
+        edit_message(msg_id, text)
     except requests.HTTPError as e:
         body = e.response.text if e.response is not None else ""
         if "message to edit not found" in body or "message can't be edited" in body:
-            state["board_msg_id"] = send(text, MENU_MARKUP)
+            state["board_msg_id"] = send(text)
         else:
             print("Табло не оновлено (залишаю старе):", e)
     except Exception as e:
