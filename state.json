@@ -165,6 +165,7 @@
   "news:https://dnepr.info/uk/news/yake-sogodni-svyato-i-kogo-vitati-z-imeninami-16-listopada-vse-pro-cey-den",
   "news:https://dnepr.info/uk/news/yake-sogodni-svyato-i-kogo-vitati-z-imeninami-17-listopada-vse-pro-cey-den",
   "news:https://dnepr.info/uk/news/yakoyu-bude-pogoda-u-dnipri-ta-oblasti-14-listopada-prognoz-sinoptikiv",
+  "news:https://dnepr.info/uk/news/ye-poraneni-poshkodzheni-budinki-gimnaziya-ta-fabrika-shcho-vidomo-pro-naslidki-ataki-na-dnipro",
   "news:https://dnepr.info/uk/news/z-pid-zavaliv-budinku-v-dnipri-vryatuvali-troh-kotiv-poshuki-trivayut",
   "news:https://dnepr.info/uk/news/zagalmuvali-v-ostannyu-mit-na-naberezhniy-zavodskiy-u-dnipri-led-ne-zbili-pishohoda-video",
   "news:https://dnepr.info/uk/news/zagublena-vivcharka-u-dnipri-prodovzhuye-jizditi-mistom-marshrutkami-u-poshukah-gospodarya",
@@ -416,7 +417,7 @@
   "tg:korbanofficial/13424",
   "tg:korbanofficial/13425"
  ],
- "update_offset": 875598936,
+ "update_offset": 875598937,
  "board_msg_id": 228,
  "sig_today": "2026-11-17|[\"ScheduleApplies\", [[\"2026-11-17T01:00:00+02:00\", \"2026-11-17T08:00:00+02:00\"], [\"2026-11-17T11:30:00+02:00\", \"2026-11-17T18:30:00+02:00\"], [\"2026-11-17T22:00:00+02:00\", \"2026-11-17T23:00:00+02:00\"]]]",
  "sig_tomorrow": "2026-11-18|[\"WaitingForSchedule\", []]",
