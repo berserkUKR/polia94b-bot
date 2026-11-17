@@ -254,20 +254,95 @@ def fetch_telegram_posts():
     return posts
 
 
-def fetch_cek_notices(limit=2):
-    """Останні аварійні/екстрені повідомлення ЦЕК з t.me/cek_info (для табло)."""
+CEK_MONTHS = {"СІЧНЯ": 1, "ЛЮТОГО": 2, "БЕРЕЗНЯ": 3, "КВІТНЯ": 4, "ТРАВНЯ": 5,
+              "ЧЕРВНЯ": 6, "ЛИПНЯ": 7, "СЕРПНЯ": 8, "ВЕРЕСНЯ": 9, "ЖОВТНЯ": 10,
+              "ЛИСТОПАДА": 11, "ГРУДНЯ": 12}
+CEK_DATE_RE = re.compile(r"(\d{1,2})\s+(" + "|".join(CEK_MONTHS) + r")\b")
+CEK_QUEUE_RE = re.compile(r"(?<![\d.])5\.2\s+((?:\d{2}:\d{2}\s*-\s*\d{2}:\d{2}\s*)+)")
+CEK_RANGE_RE = re.compile(r"(\d{2}):(\d{2})\s*-\s*(\d{2}):(\d{2})")
+CEK_OTHER_CITY_RE = re.compile(
+    r"ПАВЛОГРАД|ЖОВТІ ВОДИ|ВІЛЬНОГІРСЬК|КРИВОРІЗЬК|КАМ.?ЯНСЬК|ОБУХІВ|САМАРІВ|ДНІПРОВСЬК|адрес",
+    re.I)
+CEK_EMERG_ON_RE = re.compile(r"застосовуються\s+ЕКСТРЕН", re.I)
+CEK_EMERG_OFF_RE = re.compile(r"скасування\s+ЕКСТРЕН", re.I)
+
+
+def cek_posts():
+    """Усі пости t.me/cek_info (від старих до нових): (номер, текст)."""
     r = requests.get(TG_CEK_CHANNEL, timeout=30, headers=UA)
     r.raise_for_status()
-    notices = []
+    posts = []
     for chunk in r.text.split('data-post="')[1:]:
         post_id = chunk.split('"', 1)[0]
         m = TG_MSG_TEXT_RE.search(chunk)
         if not m:
             continue
-        text = clean(m.group(1))
+        posts.append((int(post_id.split("/")[-1]), post_id, clean(m.group(1))))
+    posts.sort()
+    return [(pid, text) for pid, _post_id, text in posts]
+
+
+def fetch_cek_notices(limit=2):
+    """Останні аварійні/екстрені повідомлення ЦЕК (для табло)."""
+    notices = []
+    for pid, text in reversed(cek_posts()):
         if CEK_NOTICE_RE.search(text):
-            notices.append((f"https://t.me/{post_id}", text))
-    return list(reversed(notices))[:limit]
+            notices.append((f"https://t.me/cek_info/{pid}", text))
+    return notices[:limit]
+
+
+def cek_emergency_now(posts):
+    """True — екстрені діють; False — скасовано; None — даних немає."""
+    for _pid, text in reversed(posts):
+        if CEK_EMERG_OFF_RE.search(text):
+            return False
+        if CEK_EMERG_ON_RE.search(text):
+            return True
+    return None
+
+
+def cek_queue_intervals(posts, date):
+    """Інтервали відключень черги 5.2 на дату з найновішого поста ЦЕК по Дніпру."""
+    for _pid, text in reversed(posts):
+        if CEK_OTHER_CITY_RE.search(text):
+            continue
+        if not any(int(d) == date.day and CEK_MONTHS[mon] == date.month
+                   for d, mon in CEK_DATE_RE.findall(text)):
+            continue
+        m = CEK_QUEUE_RE.search(text)
+        if not m:
+            continue
+        out = []
+        for a1, a2, b1, b2 in CEK_RANGE_RE.findall(m.group(1)):
+            start = int(a1) * 60 + int(a2)
+            end = int(b1) * 60 + int(b2)
+            out.append((start, end))
+        return out
+    return None
+
+
+def apply_cek(group_data, now):
+    """Підміняє графік на сьогодні даними ЦЕК, якщо вони є; інакше лишає YASNO."""
+    try:
+        posts = cek_posts()
+    except Exception as e:
+        print("cek_info недоступний, беру YASNO:", e)
+        return group_data
+    emergency = cek_emergency_now(posts)
+    if emergency:
+        new_today = {"status": "EmergencyShutdowns"}
+    else:
+        intervals = cek_queue_intervals(posts, now.date())
+        if intervals is None:
+            return group_data
+        midnight = datetime.combine(now.date(), time(0, 0), TZ)
+        new_today = {
+            "status": "ScheduleApplies",
+            "date": midnight.isoformat(),
+            "slots": [{"type": "Definite", "start": a, "end": b} for a, b in intervals],
+        }
+    print("Сьогодні береться з ЦЕК:", new_today.get("status"))
+    return {**group_data, "today": new_today, "cek_emergency": emergency is True}
 
 
 def fetch_news_links():
@@ -497,9 +572,11 @@ def status_board_text(group_data, now, state):
     status = today.get("status")
     lines = [f"⚡ Світло, черга {GROUP} (ЦЕК), {now:%d.%m}", ""]
 
-    if status == "EmergencyShutdowns":
-        lines.append("Тип відключень: 🚨 стабілізаційні / аварійні, графік не застосовується")
-        lines.append("Світло зараз: час за графіком не визначено")
+    emergency = status == "EmergencyShutdowns" or group_data.get("cek_emergency") is True
+    if emergency:
+        lines.append("Тип відключень: 🚨 екстрені (за командою Укренерго)")
+        lines.append("Графіки погодинних відключень не діють")
+        lines.append("Світло зараз: ⚠️ невідомо, можливі екстрені відключення")
     else:
         is_off, nxt = board_next_event(group_data, now)
         type_text = "📅 графікові" if status == "ScheduleApplies" else f"статус: {status}"
@@ -510,27 +587,13 @@ def status_board_text(group_data, now, state):
             lines.append(f"Наступна зміна: о {hhmm(t)} — {label}")
 
 
-    if status == "ScheduleApplies":
+    if status == "ScheduleApplies" and not emergency:
         lines.append("")
         if state.get("note_today"):
             lines.append(state["note_today"])
         lines.append(f"Графік на сьогодні ({now:%d.%m}):")
         lines.extend(schedule_lines(today, now.date()))
 
-
-    lines.append("")
-    lines.append("ЦЕК (t.me/cek_info), останні аварійні повідомлення:")
-    try:
-        notices = fetch_cek_notices()
-    except Exception as e:
-        print("cek_info недоступний:", e)
-        notices = []
-    if notices:
-        for url, text in notices:
-            lines.append(f"• {text[:200]}{'…' if len(text) > 200 else ''}")
-            lines.append(url)
-    else:
-        lines.append("нових аварійних повідомлень немає")
 
     lines.append("")
     lines.append("Проспект Олександра Поля, 94 (вода, газ):")
@@ -662,6 +725,7 @@ def main():
         print("Помилка отримання графіка:", e)
         group_data = None
     if group_data is not None:
+        group_data = apply_cek(group_data, now)
         if MANUAL:
             print(json.dumps(group_data, ensure_ascii=False)[:1500])
         today_iso = now.date().isoformat()
