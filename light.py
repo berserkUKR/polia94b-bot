@@ -52,6 +52,8 @@ NEWS_LINK_RE = re.compile(
     r'href="(https?://(?:www\.)?(?:dnipro\.media|dnepr\.info)/[^"#?\s]+)"'
 )
 TG_CHANNEL = "https://t.me/s/korbanofficial"
+TG_CEK_CHANNEL = "https://t.me/s/cek_info"
+CEK_NOTICE_RE = re.compile(r"екстрен|аварійн|стабілізаційн", re.I)
 TG_MSG_TEXT_RE = re.compile(
     r'<div class="tgme_widget_message_text[^"]*"[^>]*>(.*?)</div>', re.S
 )
@@ -250,6 +252,22 @@ def fetch_telegram_posts():
             continue
         posts.append((f"tg:{post_id}", f"https://t.me/{post_id}", clean(m.group(1))))
     return posts
+
+
+def fetch_cek_notices(limit=2):
+    """Останні аварійні/екстрені повідомлення ЦЕК з t.me/cek_info (для табло)."""
+    r = requests.get(TG_CEK_CHANNEL, timeout=30, headers=UA)
+    r.raise_for_status()
+    notices = []
+    for chunk in r.text.split('data-post="')[1:]:
+        post_id = chunk.split('"', 1)[0]
+        m = TG_MSG_TEXT_RE.search(chunk)
+        if not m:
+            continue
+        text = clean(m.group(1))
+        if CEK_NOTICE_RE.search(text):
+            notices.append((f"https://t.me/{post_id}", text))
+    return list(reversed(notices))[:limit]
 
 
 def fetch_news_links():
@@ -499,6 +517,20 @@ def status_board_text(group_data, now, state):
         lines.append(f"Графік на сьогодні ({now:%d.%m}):")
         lines.extend(schedule_lines(today, now.date()))
 
+
+    lines.append("")
+    lines.append("ЦЕК (t.me/cek_info), останні аварійні повідомлення:")
+    try:
+        notices = fetch_cek_notices()
+    except Exception as e:
+        print("cek_info недоступний:", e)
+        notices = []
+    if notices:
+        for url, text in notices:
+            lines.append(f"• {text[:200]}{'…' if len(text) > 200 else ''}")
+            lines.append(url)
+    else:
+        lines.append("нових аварійних повідомлень немає")
 
     lines.append("")
     lines.append("Проспект Олександра Поля, 94 (вода, газ):")
