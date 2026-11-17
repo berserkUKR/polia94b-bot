@@ -265,6 +265,20 @@ CEK_OTHER_CITY_RE = re.compile(
     re.I)
 CEK_EMERG_ON_RE = re.compile(r"застосовуються\s+ЕКСТРЕН", re.I)
 CEK_EMERG_OFF_RE = re.compile(r"скасування\s+ЕКСТРЕН", re.I)
+CEK_WORKS_RE = re.compile(r"планов", re.I)
+
+
+def cek_works_message(pid, text):
+    """Повідомлення про планові роботи за адресою 94Б із посту ЦЕК."""
+    dm = CEK_DATE_RE.search(text)
+    date_s = f"{dm.group(1)} {dm.group(2).lower()}" if dm else "дата уточнюється"
+    tm = re.search(r"з\s*(\d{2}:\d{2})\s*до\s*(\d{2}:\d{2})", text)
+    when = f"{date_s}, з {tm.group(1)} до {tm.group(2)}" if tm else date_s
+    return (f"🔧 Планові роботи за вашою адресою\n"
+            f"Дата: {when}\n"
+            f"Адреса: проспект Олександра Поля, 94Б\n"
+            f"Джерело: ЦЕК (t.me/cek_info/{pid})\n\n"
+            f"Можливе відключення під час робіт.")
 
 
 def cek_posts():
@@ -387,6 +401,17 @@ def check_addresses(state):
             seen.add(key)
     except Exception as e:
         print("Telegram недоступний:", e)
+
+    # Планові роботи ЦЕК за нашою адресою (пости з переліком вулиць)
+    try:
+        for pid, text in cek_posts():
+            key = f"cek:{pid}"
+            if key not in seen and ADDRESS_RE.search(text) and CEK_WORKS_RE.search(text):
+                if initialized:
+                    send(cek_works_message(pid, text))
+            seen.add(key)
+    except Exception as e:
+        print("cek_info (роботи) недоступний:", e)
 
     try:
         new_links = [l for l in fetch_news_links() if f"news:{l}" not in seen]
@@ -611,10 +636,13 @@ def status_board_text(group_data, now, state):
     return "\n".join(lines)
 
 
-def edit_message(message_id, text):
+def edit_message(message_id, text, markup=None):
+    payload = {"chat_id": CHAT_ID, "message_id": message_id, "text": text}
+    if markup:
+        payload["reply_markup"] = markup
     r = requests.post(
         f"https://api.telegram.org/bot{TOKEN}/editMessageText",
-        json={"chat_id": CHAT_ID, "message_id": message_id, "text": text},
+        json=payload,
         timeout=30,
     )
     if r.status_code == 400 and "not modified" in r.text:
@@ -629,14 +657,14 @@ def update_status_board(state, group_data, now):
     text = status_board_text(group_data, now, state)
     msg_id = state.get("board_msg_id")
     if not msg_id:
-        state["board_msg_id"] = send(text)
+        state["board_msg_id"] = send(text, MENU_MARKUP)
         return
     try:
-        edit_message(msg_id, text)
+        edit_message(msg_id, text, MENU_MARKUP)
     except requests.HTTPError as e:
         body = e.response.text if e.response is not None else ""
         if "message to edit not found" in body or "message can't be edited" in body:
-            state["board_msg_id"] = send(text)
+            state["board_msg_id"] = send(text, MENU_MARKUP)
         else:
             print("Табло не оновлено (залишаю старе):", e)
     except Exception as e:
