@@ -656,12 +656,31 @@ def edit_message(message_id, text, markup=None):
     r.raise_for_status()
 
 
+def pin_message(message_id):
+    requests.post(
+        f"https://api.telegram.org/bot{TOKEN}/pinChatMessage",
+        json={"chat_id": CHAT_ID, "message_id": message_id, "disable_notification": True},
+        timeout=30,
+    )
+
+
 def update_status_board(state, group_data, now):
     """Оновлює одне закріплене табло. Нове повідомлення шлеться лише
     якщо старе справді видалено; при інших помилках (мережа, ліміти)
     просто чекаємо наступного запуску, щоб не дублювати табло."""
     text = status_board_text(group_data, now, state)
     msg_id = state.get("board_msg_id")
+    if not state.get("board_pinned_v2"):
+        # Одноразово: створюємо нове табло і закріплюємо його, щоб бот
+        # редагував саме те повідомлення, яке видно закріпленим.
+        new_id = send(text)
+        try:
+            pin_message(new_id)
+        except Exception as e:
+            print("Не вдалося закріпити табло:", e)
+        state["board_msg_id"] = new_id
+        state["board_pinned_v2"] = True
+        return
     if not msg_id:
         state["board_msg_id"] = send(text)
         return
