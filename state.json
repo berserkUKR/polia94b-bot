@@ -544,7 +544,8 @@
  "update_offset": 875598960,
  "board_msg_id": 261,
  "sig_today": "2026-11-18|[\"EmergencyShutdowns\", []]",
- "sig_tomorrow": "2026-11-19|[\"WaitingForSchedule\", []]",
+ "sig_tomorrow": "2026-11-19|[\"ScheduleApplies\", [[\"2026-11-19T09:00:00+02:00\", \"2026-11-19T12:30:00+02:00\"], [\"2026-11-19T19:30:00+02:00\", \"2026-11-19T23:00:00+02:00\"]]]",
  "emergency_date": "2026-11-18",
- "board_pinned_v2": true
+ "board_pinned_v2": true,
+ "note_tomorrow": "📅 Опубліковано графік на завтра о 21:50"
 }
