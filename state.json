@@ -324,6 +324,7 @@
   "news:https://www.dnipro.media/novyny-dnipro/rosiyany-atakuvaly-dnipro-poshkodzheni-bagatopoverhivky/",
   "news:https://www.dnipro.media/novyny-dnipro/rosiyany-atakuvaly-nikopolshhynu-poraneno-dvoh-lyudej/",
   "news:https://www.dnipro.media/novyny-dnipro/rosiyany-atakuvaly-pidpryyemstvo-harchovoyi-promyslovosti-u-dnipri-spalahnula-pozhezha/",
+  "news:https://www.dnipro.media/novyny-dnipro/rosiyany-vdaryly-bezpilotnykom-po-pavlogradu/",
   "news:https://www.dnipro.media/novyny-dnipro/rosiyany-vdaryly-po-transportnij-infrastrukturi-dnipra/",
   "news:https://www.dnipro.media/novyny-dnipro/rosiyany-zavdaly-udariv-po-pavlogradu/",
   "news:https://www.dnipro.media/novyny-dnipro/shestero-lyudej-poraneni-cherez-rosijski-ataky-na-dnipropetrovshhynu/",
@@ -497,7 +498,7 @@
   "tg:korbanofficial/13430",
   "tg:korbanofficial/13431"
  ],
- "update_offset": 875598959,
+ "update_offset": 875598960,
  "board_msg_id": 261,
  "sig_today": "2026-11-18|[\"EmergencyShutdowns\", []]",
  "sig_tomorrow": "2026-11-19|[\"WaitingForSchedule\", []]",
