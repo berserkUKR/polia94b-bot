@@ -497,9 +497,10 @@
   "tg:korbanofficial/13430",
   "tg:korbanofficial/13431"
  ],
- "update_offset": 875598938,
- "board_msg_id": 228,
+ "update_offset": 875598959,
+ "board_msg_id": 261,
  "sig_today": "2026-11-18|[\"EmergencyShutdowns\", []]",
  "sig_tomorrow": "2026-11-19|[\"WaitingForSchedule\", []]",
- "emergency_date": "2026-11-18"
+ "emergency_date": "2026-11-18",
+ "board_pinned_v2": true
 }
