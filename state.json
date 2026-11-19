@@ -327,6 +327,7 @@
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-19-lystopada-2026-onovlennya-0810/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-19-lystopada-2026-onovlennya-2335/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-19-lystopada-2026/",
+  "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-20-lystopada-2026-onovlennya-0005/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-20-lystopada-2026/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-12-lystopada-2026-onovlennya-1059/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-12-lystopada-2026/",
@@ -619,7 +620,8 @@
  "update_offset": 875598960,
  "board_msg_id": 261,
  "sig_today": "2026-11-20|[\"EmergencyShutdowns\", []]",
- "sig_tomorrow": "2026-11-21|[\"ScheduleApplies\", [[\"2026-11-20T06:00:00+02:00\", \"2026-11-20T09:30:00+02:00\"], [\"2026-11-20T16:30:00+02:00\", \"2026-11-20T20:00:00+02:00\"]]]",
+ "sig_tomorrow": "2026-11-21|[\"WaitingForSchedule\", []]",
  "emergency_date": "2026-11-20",
- "board_pinned_v2": true
+ "board_pinned_v2": true,
+ "note_tomorrow": "⚠️ Графік на завтра змінився о 00:05"
 }
