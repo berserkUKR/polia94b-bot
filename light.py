@@ -342,21 +342,12 @@ def apply_cek(group_data, now):
     except Exception as e:
         print("cek_info недоступний, беру YASNO:", e)
         return group_data
+    # Графік беремо з YASNO. ЦЕК тут лише показує, чи діють екстрені відключення.
     emergency = cek_emergency_now(posts)
     if emergency:
-        new_today = {"status": "EmergencyShutdowns"}
-    else:
-        intervals = cek_queue_intervals(posts, now.date())
-        if intervals is None:
-            return group_data
-        midnight = datetime.combine(now.date(), time(0, 0), TZ)
-        new_today = {
-            "status": "ScheduleApplies",
-            "date": midnight.isoformat(),
-            "slots": [{"type": "Definite", "start": a, "end": b} for a, b in intervals],
-        }
-    print("Сьогодні береться з ЦЕК:", new_today.get("status"))
-    return {**group_data, "today": new_today, "cek_emergency": emergency is True}
+        group_data = {**group_data, "today": {"status": "EmergencyShutdowns"}}
+    print("ЦЕК: екстрені діють" if emergency else "ЦЕК: екстрених немає (графік з YASNO)")
+    return {**group_data, "cek_emergency": emergency is True}
 
 
 def fetch_news_links():
@@ -784,13 +775,7 @@ def main():
         if MANUAL:
             print(json.dumps(group_data, ensure_ascii=False)[:1500])
         today_iso = now.date().isoformat()
-        if (group_data.get("today") or {}).get("status") == "EmergencyShutdowns" \
-                and state.get("emergency_date") != today_iso:
-            # Записуємо сиру відповідь у лог, щоб було видно формат даних
-            print("Аварійні відключення:", json.dumps(group_data, ensure_ascii=False)[:1500])
-            send("🚨 Діють аварійні (стабілізаційні) відключення для черги 5.2 (ЦЕК). "
-                 "Планового графіка на сьогодні немає, слідкуйте за оновленнями.")
-            state["emergency_date"] = today_iso
+        # Щоденне повідомлення про аварійні відключення вимкнено: є табло
         # Ранкове повідомлення вимкнено: повний графік є на табло
         if False and now.hour >= MORNING_HOUR and state.get("schedule_date") != today_iso:
             send(schedule_message(group_data, now))
