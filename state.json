@@ -151,6 +151,7 @@
   "news:https://dnepr.info/uk/news/nimeckiy-lidl-viv-peremovini-pro-kupivlyu-atb-shcho-vidomo",
   "news:https://dnepr.info/uk/news/nizka-avtobusiv-ta-troleybusiv-u-dnipri-zminili-ruh-16-listopada-detali",
   "news:https://dnepr.info/uk/news/ob-yekt-naftogazu-na-dnipropetrovshchini-zaznav-ataki-shcho-vidomo-pro-naslidki",
+  "news:https://dnepr.info/uk/news/odyag-vzuttya-ta-igrashki-de-u-dnipri-shchochetverga-bezkoshtovno-rozdayut-dopomogu",
   "news:https://dnepr.info/uk/news/olx-vimagatime-pidtverdzhennya-osobi-cherez-diyu-kogo-stosuyutsya-novi-pravila",
   "news:https://dnepr.info/uk/news/oprilyudnili-grafiki-vidklyuchennya-svitla-na-19-listopada-vid-dtek-ta-cek-u-dnipri",
   "news:https://dnepr.info/uk/news/oranzhereya-z-unikalnimi-roslinami-yaka-postrazhdala-vid-obstrilu-v-dnipri-potrebuye-dopomogi",
@@ -665,9 +666,10 @@
  ],
  "update_offset": 875598961,
  "board_msg_id": 267,
- "sig_today": "2026-11-20|[\"EmergencyShutdowns\", []]",
+ "sig_today": "2026-11-20|[\"ScheduleApplies\", [[\"2026-11-20T14:30:00+02:00\", \"2026-11-20T20:00:00+02:00\"]]]",
  "sig_tomorrow": "2026-11-21|[\"WaitingForSchedule\", []]",
  "emergency_date": "2026-11-20",
  "board_pinned_v2": true,
- "note_tomorrow": "⚠️ Графік на завтра змінився о 00:05"
+ "note_tomorrow": "⚠️ Графік на завтра змінився о 00:05",
+ "note_today": "⚠️ Графік на сьогодні змінився о 20:40"
 }
