@@ -342,12 +342,17 @@ def apply_cek(group_data, now):
     except Exception as e:
         print("cek_info недоступний, беру YASNO:", e)
         return group_data
-    # Графік беремо з YASNO. ЦЕК тут лише показує, чи діють екстрені відключення.
-    emergency = cek_emergency_now(posts)
-    if emergency:
-        group_data = {**group_data, "today": {"status": "EmergencyShutdowns"}}
-    print("ЦЕК: екстрені діють" if emergency else "ЦЕК: екстрених немає (графік з YASNO)")
-    return {**group_data, "cek_emergency": emergency is True}
+    # Графік беремо з YASNO. З ЦЕК беремо екстрений статус, додаткові
+    # відключення на сьогодні і графік на завтра, якщо він уже є.
+    tomorrow_date = now.date() + timedelta(days=1)
+    emergency = cek_status_active(posts)
+    print("ЦЕК: екстрені діють" if emergency else "ЦЕК: екстрених немає")
+    return {
+        **group_data,
+        "cek_emergency": emergency,
+        "cek_extra": cek_extra_today(posts),
+        "cek_tomorrow": cek_queue_intervals(posts, tomorrow_date),
+    }
 
 
 def fetch_news_links():
@@ -583,32 +588,84 @@ def board_next_event(group_data, now):
     return is_off, (future[0] if future else None)
 
 
+def cek_status_active(posts):
+    """Чи діють екстрені зараз: останній статус ЦЕК — «діють», і після нього
+    не було поста з графіком черги 5.2 (тоді режим вважаємо скасованим)."""
+    for idx in range(len(posts) - 1, -1, -1):
+        text = posts[idx][1]
+        if CEK_EMERG_OFF_RE.search(text):
+            return False
+        if CEK_EMERG_ON_RE.search(text):
+            for _pid, later in posts[idx + 1:]:
+                if not CEK_OTHER_CITY_RE.search(later) and CEK_QUEUE_RE.search(later):
+                    return False
+            return True
+    return False
+
+
+def cek_extra_today(posts):
+    """Час, з якого ЦЕК додатково вимикає чергу 5.2 сьогодні (наприклад, «з 13:45»)."""
+    for _pid, text in reversed(posts):
+        if CEK_OTHER_CITY_RE.search(text):
+            continue
+        m = re.search(r"з\s*(\d{2}:\d{2})\s*додатково відключаються черги[^;]*?5\.2", text)
+        if m:
+            return m.group(1)
+    return None
+
+
+def intervals_day(date, intervals):
+    """Перетворює список (початок, кінець) у формат дня для schedule_lines."""
+    midnight = datetime.combine(date, time(0, 0), TZ)
+    return {
+        "status": "ScheduleApplies",
+        "date": midnight.isoformat(),
+        "slots": [{"type": "Definite", "start": a, "end": b} for a, b in intervals],
+    }
+
+
 def status_board_text(group_data, now, state):
     today = group_data.get("today") or {}
+    tomorrow = group_data.get("tomorrow") or {}
     status = today.get("status")
+    tomorrow_date = now.date() + timedelta(days=1)
     lines = [f"⚡ Світло, черга {GROUP} (ЦЕК), {now:%d.%m}", ""]
 
-    emergency = status == "EmergencyShutdowns" or group_data.get("cek_emergency") is True
+    emergency = group_data.get("cek_emergency") is True or status == "EmergencyShutdowns"
+    is_off, nxt = board_next_event(group_data, now)
     if emergency:
-        lines.append("Тип відключень: 🚨 екстрені (за командою Укренерго)")
-        lines.append("Графіки погодинних відключень не діють")
-        lines.append("Світло зараз: ⚠️ невідомо, можливі екстрені відключення")
+        lines.append("🚨 Екстрені відключення за командою Укренерго.")
+        lines.append("Графіки погодинних відключень не діють, точний час невідомий.")
+        lines.append("Світло зараз: 🔴 можливо немає (екстрені відключення)")
     else:
-        is_off, nxt = board_next_event(group_data, now)
-        type_text = "📅 графікові" if status == "ScheduleApplies" else f"статус: {status}"
-        lines.append(f"Тип відключень: {type_text}")
         lines.append("Світло зараз: " + ("🔴 немає" if is_off else "🟢 є"))
         if nxt:
             t, label = nxt
             lines.append(f"Наступна зміна: о {hhmm(t)} — {label}")
+    if group_data.get("cek_extra"):
+        lines.append(f"⚠️ ЦЕК: черга {GROUP} додатково відключається з "
+                     f"{group_data['cek_extra']} (кінець не вказано)")
 
-
-    if status == "ScheduleApplies" and not emergency:
-        lines.append("")
+    lines.append("")
+    if status == "ScheduleApplies":
         if state.get("note_today"):
             lines.append(state["note_today"])
         lines.append(f"Графік на сьогодні ({now:%d.%m}):")
         lines.extend(schedule_lines(today, now.date()))
+    else:
+        lines.append(f"Графік на сьогодні ({now:%d.%m}): {STATUS_TEXT.get(status, status)}")
+
+    lines.append("")
+    if group_data.get("cek_tomorrow"):
+        lines.append(f"Графік на завтра ({tomorrow_date:%d.%m}), ЦЕК:")
+        lines.extend(schedule_lines(intervals_day(tomorrow_date, group_data["cek_tomorrow"]), tomorrow_date))
+    elif tomorrow.get("status") == "ScheduleApplies":
+        if state.get("note_tomorrow"):
+            lines.append(state["note_tomorrow"])
+        lines.append(f"Графік на завтра ({tomorrow_date:%d.%m}):")
+        lines.extend(schedule_lines(tomorrow, tomorrow_date))
+    else:
+        lines.append(f"Графік на завтра ({tomorrow_date:%d.%m}): ще не опубліковано")
 
 
     lines.append("")
