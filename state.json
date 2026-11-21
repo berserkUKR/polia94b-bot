@@ -75,6 +75,7 @@
   "cek:4444",
   "cek:4445",
   "cek:4446",
+  "cek:4447",
   "news:https://dnepr.info/build/assets/app-C_pNvMdL.js",
   "news:https://dnepr.info/build/assets/app-D5ku2Vjs.css",
   "news:https://dnepr.info/ru/news-cat/dnepr-news",
@@ -155,6 +156,7 @@
   "news:https://dnepr.info/uk/news/na-vokzali-dnipra-z-23-listopada-timchasovo-zakrivayut-kimnati-vidpochinku-u-chomu-prichina",
   "news:https://dnepr.info/uk/news/na-zaporizkomu-shose-u-dnipri-hochut-pobuduvati-velikiy-sportkompleks",
   "news:https://dnepr.info/uk/news/na-zh-m-pridniprovskiy-u-dnipri-skarzhatsya-na-zhinku-yaka-nishchat-pribudinkovi-klumbi",
+  "news:https://dnepr.info/uk/news/naslidki-udaru-po-krivomu-rogu-u-likarnyah-zalishayutsya-28-lyudey-4-richniy-hlopchik-u-tyazhkomu-stani",
   "news:https://dnepr.info/uk/news/nebezpeka-mozhe-hovatisya-prosto-pid-nogami-pro-shcho-varto-pam-yatati-meshkancyam-dnipra-pislya-obstriliv",
   "news:https://dnepr.info/uk/news/nimeckiy-lidl-viv-peremovini-pro-kupivlyu-atb-shcho-vidomo",
   "news:https://dnepr.info/uk/news/nizka-avtobusiv-ta-troleybusiv-u-dnipri-zminili-ruh-16-listopada-detali",
@@ -688,7 +690,10 @@
   "tg:korbanofficial/13449",
   "tg:korbanofficial/13450",
   "tg:korbanofficial/13456",
-  "tg:korbanofficial/13457"
+  "tg:korbanofficial/13457",
+  "tg:korbanofficial/13458",
+  "tg:korbanofficial/13459",
+  "tg:korbanofficial/13460"
  ],
  "update_offset": 875598962,
  "board_msg_id": 267,
