@@ -76,6 +76,7 @@
   "cek:4445",
   "cek:4446",
   "cek:4447",
+  "cek:4448",
   "news:https://dnepr.info/build/assets/app-C_pNvMdL.js",
   "news:https://dnepr.info/build/assets/app-D5ku2Vjs.css",
   "news:https://dnepr.info/ru/news-cat/dnepr-news",
@@ -697,10 +698,10 @@
  ],
  "update_offset": 875598962,
  "board_msg_id": 267,
- "sig_today": "2026-11-21|[\"ScheduleApplies\", [[\"2026-11-21T00:00:00+02:00\", \"2026-11-21T06:00:00+02:00\"], [\"2026-11-21T13:00:00+02:00\", \"2026-11-21T17:00:00+02:00\"]]]",
+ "sig_today": "2026-11-21|[\"ScheduleApplies\", [[\"2026-11-21T10:00:00+02:00\", \"2026-11-21T12:30:00+02:00\"], [\"2026-11-21T15:00:00+02:00\", \"2026-11-21T17:30:00+02:00\"], [\"2026-11-21T20:30:00+02:00\", \"2026-11-21T21:00:00+02:00\"]]]",
  "sig_tomorrow": "2026-11-22|[\"WaitingForSchedule\", []]",
  "emergency_date": "2026-11-20",
  "board_pinned_v2": true,
- "note_today": "⚠️ Графік на сьогодні змінився о 00:05",
+ "note_today": "⚠️ Графік на сьогодні змінився о 10:35",
  "note_tomorrow": "⚠️ Графік на завтра змінився о 00:05"
 }
