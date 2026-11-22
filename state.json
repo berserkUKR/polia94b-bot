@@ -737,8 +737,9 @@
  ],
  "update_offset": 875598962,
  "board_msg_id": 267,
- "sig_today": "2026-11-22|[\"WaitingForSchedule\", []]",
+ "sig_today": "2026-11-22|[\"ScheduleApplies\", [[\"2026-11-22T21:00:00+02:00\", \"2026-11-23T00:00:00+02:00\"]]]",
  "sig_tomorrow": "2026-11-23|[\"WaitingForSchedule\", []]",
  "emergency_date": "2026-11-20",
- "board_pinned_v2": true
+ "board_pinned_v2": true,
+ "note_today": "⚠️ Графік на сьогодні змінився о 07:00"
 }
