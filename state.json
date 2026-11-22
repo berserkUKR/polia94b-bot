@@ -797,13 +797,13 @@
   "tg:korbanofficial/13467",
   "tg:korbanofficial/13468",
   "tg:korbanofficial/13469",
-  "tg:korbanofficial/13471"
+  "tg:korbanofficial/13471",
+  "tg:korbanofficial/13472"
  ],
  "update_offset": 875598964,
  "board_msg_id": 267,
- "sig_today": "2026-11-22|[\"ScheduleApplies\", [[\"2026-11-22T21:00:00+02:00\", \"2026-11-23T00:00:00+02:00\"]]]",
- "sig_tomorrow": "2026-11-23|[\"WaitingForSchedule\", []]",
+ "sig_today": "2026-11-23|[\"WaitingForSchedule\", []]",
+ "sig_tomorrow": "2026-11-24|[\"WaitingForSchedule\", []]",
  "emergency_date": "2026-11-20",
- "board_pinned_v2": true,
- "note_today": "⚠️ Графік на сьогодні змінився о 07:00"
+ "board_pinned_v2": true
 }
