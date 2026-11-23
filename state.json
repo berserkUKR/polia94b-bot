@@ -885,7 +885,7 @@
   "tg:korbanofficial/13478",
   "tg:korbanofficial/13480"
  ],
- "update_offset": 875598965,
+ "update_offset": 875598966,
  "board_msg_id": 267,
  "sig_today": "2026-11-23|[\"ScheduleApplies\", [[\"2026-11-23T06:00:00+02:00\", \"2026-11-23T11:00:00+02:00\"], [\"2026-11-23T14:30:00+02:00\", \"2026-11-23T21:30:00+02:00\"]]]",
  "sig_tomorrow": "2026-11-24|[\"WaitingForSchedule\", []]",
