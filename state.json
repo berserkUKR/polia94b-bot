@@ -109,6 +109,7 @@
   "cek:4470",
   "cek:4471",
   "cek:4472",
+  "cek:4473",
   "news:https://dnepr.info/build/assets/app-C_pNvMdL.js",
   "news:https://dnepr.info/build/assets/app-D5ku2Vjs.css",
   "news:https://dnepr.info/ru/news-cat/dnepr-news",
@@ -521,6 +522,7 @@
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-23-lystopada-2026/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-24-lystopada-2026-onovlennya-2316/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-24-lystopada-2026-onovlennya-2329/",
+  "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-24-lystopada-2026-onovlennya-2357/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-24-lystopada-2026/",
   "news:https://www.dnipro.media/novyny-dnipro/gromadska-rada-pry-dniprovskij-miskradi-onovyla-sklad-ta-stvoryla-12-komitetiv/",
   "news:https://www.dnipro.media/novyny-dnipro/kav-yarnya-z-dnipra-stala-najkrashhoyu-v-ukrayini-za-versiyeyu-restorannoyi-premiyi-sil/",
@@ -901,10 +903,8 @@
  ],
  "update_offset": 875598966,
  "board_msg_id": 267,
- "sig_today": "2026-11-23|[\"ScheduleApplies\", [[\"2026-11-23T06:00:00+02:00\", \"2026-11-23T11:00:00+02:00\"], [\"2026-11-23T14:30:00+02:00\", \"2026-11-23T21:30:00+02:00\"]]]",
- "sig_tomorrow": "2026-11-24|[\"ScheduleApplies\", [[\"2026-11-24T06:00:00+02:00\", \"2026-11-24T08:00:00+02:00\"], [\"2026-11-24T12:00:00+02:00\", \"2026-11-24T18:30:00+02:00\"], [\"2026-11-24T22:00:00+02:00\", \"2026-11-25T00:00:00+02:00\"]]]",
+ "sig_today": "2026-11-24|[\"ScheduleApplies\", [[\"2026-11-24T06:00:00+02:00\", \"2026-11-24T08:00:00+02:00\"], [\"2026-11-24T12:00:00+02:00\", \"2026-11-24T18:30:00+02:00\"], [\"2026-11-24T22:00:00+02:00\", \"2026-11-25T00:00:00+02:00\"]]]",
+ "sig_tomorrow": "2026-11-25|[\"WaitingForSchedule\", []]",
  "emergency_date": "2026-11-20",
- "board_pinned_v2": true,
- "note_today": "⚠️ Графік на сьогодні змінився о 16:35",
- "note_tomorrow": "📅 Опубліковано графік на завтра о 23:25"
+ "board_pinned_v2": true
 }
