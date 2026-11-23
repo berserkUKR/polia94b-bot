@@ -33,7 +33,8 @@
   "off-2026-11-21T20:30:00+02:00",
   "on-2026-11-21T21:00:00+02:00",
   "off-2026-11-22T21:00:00+02:00",
-  "on-2026-11-23T11:00:00+02:00"
+  "on-2026-11-23T11:00:00+02:00",
+  "off-2026-11-23T14:30:00+02:00"
  ],
  "addr_init": true,
  "seen": [
@@ -322,6 +323,7 @@
   "news:https://dnepr.info/uk/news/u-troh-selishchah-u-mezhah-dnipra-chastkovo-nemaye-vodi-shcho-stalosya",
   "news:https://dnepr.info/uk/news/u-yakomu-stani-postrazhdali-vnaslidok-udariv-po-dnipru-16-listopada",
   "news:https://dnepr.info/uk/news/uchasniceyu-golosu-krajini-stala-vipusknicya-gimnaziji-z-dnipra",
+  "news:https://dnepr.info/uk/news/ukrajinska-dizaynerka-otrimala-seryozni-poranennya-pid-chas-obstrilu-v-dnipri",
   "news:https://dnepr.info/uk/news/ukrzaliznicya-prodaye-vosmipoverhovu-pribudovu-do-zhitlovogo-budinku-v-dnipri-za-12-mln-grn",
   "news:https://dnepr.info/uk/news/ukrzaliznicya-vistavila-v-orendu-primishchennya-u-dnipri-ta-oblasti-shcho-vidomo",
   "news:https://dnepr.info/uk/news/use-shche-chekayu-horeografka-z-dnipra-doriknula-zelenskomu-cherez-nagorodi-diyacham-kulturi",
