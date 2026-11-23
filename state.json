@@ -493,6 +493,7 @@
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-23-lystopada-2026-onovlennya-2225/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-23-lystopada-2026/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-24-lystopada-2026-onovlennya-2225/",
+  "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-24-lystopada-2026-onovlennya-2325/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-dtek-na-24-lystopada-2026/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-12-lystopada-2026-onovlennya-1059/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-12-lystopada-2026/",
@@ -891,8 +892,9 @@
  "update_offset": 875598966,
  "board_msg_id": 267,
  "sig_today": "2026-11-23|[\"ScheduleApplies\", [[\"2026-11-23T06:00:00+02:00\", \"2026-11-23T11:00:00+02:00\"], [\"2026-11-23T14:30:00+02:00\", \"2026-11-23T21:30:00+02:00\"]]]",
- "sig_tomorrow": "2026-11-24|[\"WaitingForSchedule\", []]",
+ "sig_tomorrow": "2026-11-24|[\"ScheduleApplies\", [[\"2026-11-24T06:00:00+02:00\", \"2026-11-24T08:00:00+02:00\"], [\"2026-11-24T12:00:00+02:00\", \"2026-11-24T18:30:00+02:00\"], [\"2026-11-24T22:00:00+02:00\", \"2026-11-25T00:00:00+02:00\"]]]",
  "emergency_date": "2026-11-20",
  "board_pinned_v2": true,
- "note_today": "⚠️ Графік на сьогодні змінився о 16:35"
+ "note_today": "⚠️ Графік на сьогодні змінився о 16:35",
+ "note_tomorrow": "📅 Опубліковано графік на завтра о 23:25"
 }
