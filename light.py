@@ -837,7 +837,8 @@ def main():
         if False and now.hour >= MORNING_HOUR and state.get("schedule_date") != today_iso:
             send(schedule_message(group_data, now))
             state["schedule_date"] = today_iso
-        reminders(group_data, now, state)
+        # Нагадування «через ~35 хв» вимкнено: табло показує час змін
+        # reminders(group_data, now, state)
     if group_data is not None:
         try:
             check_schedule_changes(state, group_data, now)
