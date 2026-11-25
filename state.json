@@ -1040,13 +1040,13 @@
   "tg:korbanofficial/13493",
   "tg:korbanofficial/13494",
   "tg:korbanofficial/13496",
-  "tg:korbanofficial/13498"
+  "tg:korbanofficial/13498",
+  "tg:korbanofficial/13499"
  ],
  "update_offset": 875598968,
  "board_msg_id": 267,
- "sig_today": "2026-11-25|[\"ScheduleApplies\", [[\"2026-11-25T00:00:00+02:00\", \"2026-11-25T05:00:00+02:00\"], [\"2026-11-25T08:30:00+02:00\", \"2026-11-25T16:00:00+02:00\"], [\"2026-11-25T19:00:00+02:00\", \"2026-11-26T00:00:00+02:00\"]]]",
- "sig_tomorrow": "2026-11-26|[\"WaitingForSchedule\", []]",
+ "sig_today": "2026-11-26|[\"ScheduleApplies\", [[\"2026-11-25T00:00:00+02:00\", \"2026-11-25T05:00:00+02:00\"], [\"2026-11-25T08:30:00+02:00\", \"2026-11-25T16:00:00+02:00\"], [\"2026-11-25T19:00:00+02:00\", \"2026-11-26T00:00:00+02:00\"]]]",
+ "sig_tomorrow": "2026-11-27|[\"WaitingForSchedule\", []]",
  "emergency_date": "2026-11-20",
- "board_pinned_v2": true,
- "note_today": "⚠️ Графік на сьогодні змінився о 00:15"
+ "board_pinned_v2": true
 }
