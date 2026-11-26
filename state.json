@@ -43,7 +43,6 @@
  ],
  "addr_init": true,
  "seen": [
-  "cek:4404",
   "cek:4405",
   "cek:4406",
   "cek:4407",
@@ -608,6 +607,7 @@
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-26-lystopada-2026/",
   "news:https://www.dnipro.media/novyny-dnipro/gromadska-rada-pry-dniprovskij-miskradi-onovyla-sklad-ta-stvoryla-12-komitetiv/",
   "news:https://www.dnipro.media/novyny-dnipro/kav-yarnya-z-dnipra-stala-najkrashhoyu-v-ukrayini-za-versiyeyu-restorannoyi-premiyi-sil/",
+  "news:https://www.dnipro.media/novyny-dnipro/majzhe-20-atak-bezpilotnykamy-na-dnipropetrovshhynu-poshkodzheni-torgovelnyj-tsentr-sklady-pidpryyemstvo/",
   "news:https://www.dnipro.media/novyny-dnipro/majzhe-20-atak-na-dnipropetrovshhynu-rosiyany-byly-po-shesty-rajonah/",
   "news:https://www.dnipro.media/novyny-dnipro/majzhe-30-atak-na-dnipropetrovshhynu-poraneno-6-lyudej/",
   "news:https://www.dnipro.media/novyny-dnipro/masshtabni-znestrumlennya-na-shodi-ukrayiny-cherez-vorozhi-udary/",
@@ -1046,9 +1046,9 @@
  ],
  "update_offset": 875598968,
  "board_msg_id": 267,
- "sig_today": "2026-11-26|[\"WaitingForSchedule\", []]",
+ "sig_today": "2026-11-26|[\"ScheduleApplies\", [[\"2026-11-26T00:00:00+02:00\", \"2026-11-26T02:00:00+02:00\"], [\"2026-11-26T05:30:00+02:00\", \"2026-11-26T12:30:00+02:00\"], [\"2026-11-26T16:00:00+02:00\", \"2026-11-26T23:00:00+02:00\"]]]",
  "sig_tomorrow": "2026-11-27|[\"WaitingForSchedule\", []]",
  "emergency_date": "2026-11-20",
  "board_pinned_v2": true,
- "note_today": "⚠️ Графік на сьогодні змінився о 00:05"
+ "note_today": "⚠️ Графік на сьогодні змінився о 07:55"
 }
