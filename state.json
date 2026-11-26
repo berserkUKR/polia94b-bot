@@ -43,7 +43,6 @@
  ],
  "addr_init": true,
  "seen": [
-  "cek:4446",
   "cek:4447",
   "cek:4448",
   "cek:4449",
@@ -82,6 +81,7 @@
   "cek:4483",
   "cek:4484",
   "cek:4486",
+  "cek:4487",
   "news:https://dnepr.info/build/assets/app-C_pNvMdL.js",
   "news:https://dnepr.info/build/assets/app-D5ku2Vjs.css",
   "news:https://dnepr.info/ru/news-cat/dnepr-news",
