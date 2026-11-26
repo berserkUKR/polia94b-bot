@@ -43,7 +43,6 @@
  ],
  "addr_init": true,
  "seen": [
-  "cek:4443",
   "cek:4444",
   "cek:4445",
   "cek:4446",
@@ -311,6 +310,7 @@
   "news:https://dnepr.info/uk/news/u-dnipri-stalasya-pozhezha-u-dev-yatipoverhivci-postrazhdali-cholovik-i-ditina",
   "news:https://dnepr.info/uk/news/u-dnipri-stvorili-3d-rekonstrukciyu-novobogorodickoji-forteci-jiji-mozhna-oglyanuti-onlayn",
   "news:https://dnepr.info/uk/news/u-dnipri-ta-chastini-oblasti-15-listopada-zminyat-rezhim-vidklyuchen-svitla-de-diyatimut-ekstreni-obmezhennya",
+  "news:https://dnepr.info/uk/news/u-dnipri-ta-oblasti-pobilshalo-avariy-na-elektromerezhah-energetiki-nazvali-golovni-prichini",
   "news:https://dnepr.info/uk/news/u-dnipri-ta-oblasti-vnaslidok-rosiyskih-atak-ye-poraneni-poshkodzheni-budinki-y-pidpriyemstva",
   "news:https://dnepr.info/uk/news/u-dnipri-ta-oblasti-vveli-ekstreni-vidklyuchennya-svitla-5",
   "news:https://dnepr.info/uk/news/u-dnipri-ta-oblasti-znestrumleni-abonenti-cek-koli-povernut-svitlo-nevidomo",
