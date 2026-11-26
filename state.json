@@ -43,7 +43,6 @@
  ],
  "addr_init": true,
  "seen": [
-  "cek:4419",
   "cek:4420",
   "cek:4421",
   "cek:4422",
@@ -1042,7 +1041,8 @@
   "tg:korbanofficial/13496",
   "tg:korbanofficial/13498",
   "tg:korbanofficial/13499",
-  "tg:korbanofficial/13503"
+  "tg:korbanofficial/13503",
+  "tg:korbanofficial/13508"
  ],
  "update_offset": 875598968,
  "board_msg_id": 267,
