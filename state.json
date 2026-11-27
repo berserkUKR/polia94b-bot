@@ -43,7 +43,6 @@
  ],
  "addr_init": true,
  "seen": [
-  "news:https://dnepr.info/uk/news/bez-opadiv-i-do-80-prognoz-pogodi-u-dnipri-na-16-listopada",
   "news:https://dnepr.info/uk/news/bez-vodi-zalishilis-chastina-odnogo-iz-rayoniv-ta-selishche-na-okolicyah-dnipra",
   "news:https://dnepr.info/uk/news/bili-po-chotiroh-rayonah-dnipropetrovshchini-ye-zagibliy-i-poshkodzheni-budinki",
   "news:https://dnepr.info/uk/news/blekaut-i-18-znishchenih-troleybusiv-filatov-rozpoviv-pro-naslidki-ataki-na-dnipro",
@@ -554,6 +553,7 @@
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-25-lystopada-2026/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-26-lystopada-2026/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-27-lystopada-2026/",
+  "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-28-lystopada-2026-onovlennya-2357/",
   "news:https://www.dnipro.media/novyny-dnipro/grafiky-vidklyuchen-tsek-na-28-lystopada-2026/",
   "news:https://www.dnipro.media/novyny-dnipro/gromadska-rada-pry-dniprovskij-miskradi-onovyla-sklad-ta-stvoryla-12-komitetiv/",
   "news:https://www.dnipro.media/novyny-dnipro/iphone-17-pro-b-v-chi-vzhivanii-iphone-16-pro-sho-krashe-obrati/",
@@ -1046,10 +1046,8 @@
  ],
  "update_offset": 875598969,
  "board_msg_id": 267,
- "sig_today": "2026-11-27|[\"ScheduleApplies\", [[\"2026-11-27T06:00:00+02:00\", \"2026-11-27T09:30:00+02:00\"], [\"2026-11-27T13:00:00+02:00\", \"2026-11-27T20:00:00+02:00\"], [\"2026-11-27T23:30:00+02:00\", \"2026-11-28T00:00:00+02:00\"]]]",
- "sig_tomorrow": "2026-11-28|[\"NoOutages\", []]",
+ "sig_today": "2026-11-28|[\"ScheduleApplies\", [[\"2026-11-27T06:00:00+02:00\", \"2026-11-27T09:30:00+02:00\"], [\"2026-11-27T13:00:00+02:00\", \"2026-11-27T20:00:00+02:00\"], [\"2026-11-27T23:30:00+02:00\", \"2026-11-28T00:00:00+02:00\"]]]",
+ "sig_tomorrow": "2026-11-29|[\"NoOutages\", []]",
  "emergency_date": "2026-11-20",
- "board_pinned_v2": true,
- "note_today": "⚠️ Графік на сьогодні змінився о 10:01",
- "note_tomorrow": "⚠️ Графік на завтра змінився о 10:01"
+ "board_pinned_v2": true
 }
