@@ -43,8 +43,6 @@
  ],
  "addr_init": true,
  "seen": [
-  "news:https://dnepr.info/uk/news-cat/world-news",
-  "news:https://dnepr.info/uk/news/15-listopada-yake-sogodni-cerkovne-svyato-tradiciji-prikmeti-ta-zaboroni",
   "news:https://dnepr.info/uk/news/advokat-iz-dnipra-dopomig-modeli-onlyfans-oskarzhiti-podatkovi-pretenziji-na-2-9-mln-grn",
   "news:https://dnepr.info/uk/news/astrologichniy-prognoz-na-24-listopada-dlya-vsih-znakiv-zodiaku",
   "news:https://dnepr.info/uk/news/ataka-na-dnipropetrovshchinu-dvoye-zagiblih-55-poranenih-sered-postrazhdalih-ye-diti",
@@ -1042,7 +1040,9 @@
   "tg:korbanofficial/13512",
   "tg:korbanofficial/13513",
   "tg:korbanofficial/13514",
-  "tg:korbanofficial/13515"
+  "tg:korbanofficial/13515",
+  "tg:korbanofficial/13516",
+  "tg:korbanofficial/13517"
  ],
  "update_offset": 875598969,
  "board_msg_id": 267,
