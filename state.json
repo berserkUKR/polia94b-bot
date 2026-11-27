@@ -43,7 +43,6 @@
  ],
  "addr_init": true,
  "seen": [
-  "news:https://dnepr.info/uk/news-cat/legends-of-the-dnipro",
   "news:https://dnepr.info/uk/news-cat/politics",
   "news:https://dnepr.info/uk/news-cat/sport",
   "news:https://dnepr.info/uk/news-cat/ukraine-news",
@@ -1042,7 +1041,8 @@
   "tg:korbanofficial/13511",
   "tg:korbanofficial/13512",
   "tg:korbanofficial/13513",
-  "tg:korbanofficial/13514"
+  "tg:korbanofficial/13514",
+  "tg:korbanofficial/13515"
  ],
  "update_offset": 875598969,
  "board_msg_id": 267,
