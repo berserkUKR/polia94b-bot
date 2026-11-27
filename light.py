@@ -385,6 +385,16 @@ def alert_kind(text):
     return "⚠️ Відключення"
 
 
+def address_hit(text):
+    """Адреса і слово про відключення мають стояти поруч, а не десь на сторінці
+    (інакше новинні стрічки з випадковими словами дають хибні збіги)."""
+    for m in ADDRESS_RE.finditer(text):
+        window = text[max(0, m.start() - 300): m.end() + 300]
+        if OUTAGE_RE.search(window):
+            return True
+    return False
+
+
 def check_addresses(state):
     seen = set(state.get("seen", []))
     initialized = state.get("addr_init", False)
@@ -392,7 +402,7 @@ def check_addresses(state):
 
     try:
         for key, url, text in fetch_telegram_posts():
-            if key not in seen and ADDRESS_RE.search(text) and OUTAGE_RE.search(text):
+            if key not in seen and address_hit(text):
                 found.append((key, url, text))
             seen.add(key)
     except Exception as e:
@@ -421,7 +431,7 @@ def check_addresses(state):
         except Exception as e:
             print("Не вдалося відкрити", link, e)
             continue
-        if ADDRESS_RE.search(text) and OUTAGE_RE.search(text):
+        if address_hit(text):
             found.append((key, link, text))
         seen.add(key)
 
@@ -443,7 +453,7 @@ def current_address_matches(limit=5):
     matches = []
     try:
         for _key, url, text in reversed(fetch_telegram_posts()):
-            if ADDRESS_RE.search(text) and OUTAGE_RE.search(text):
+            if address_hit(text):
                 matches.append((url, text))
     except Exception as e:
         print("Telegram недоступний:", e)
@@ -453,7 +463,7 @@ def current_address_matches(limit=5):
                 text = fetch_article(link)
             except Exception:
                 continue
-            if ADDRESS_RE.search(text) and OUTAGE_RE.search(text):
+            if address_hit(text):
                 matches.append((link, text))
     except Exception as e:
         print("Новини недоступні:", e)
