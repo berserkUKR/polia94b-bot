@@ -43,8 +43,6 @@
  ],
  "addr_init": true,
  "seen": [
-  "news:https://dnepr.info/uk/news/cherez-raketnu-ataku-poshkodzheni-navchalniy-korpus-dnu-ta-oranzhereya-botanichnogo-sadu",
-  "news:https://dnepr.info/uk/news/cherez-vechirnyu-ataku-v-dnipri-postrazhdali-troye-lyudey-ye-ruynuvannya-v-dvoh-rayonah-mista",
   "news:https://dnepr.info/uk/news/chi-bude-mobilniy-zv-yazok-pid-chas-trivalih-vidklyuchen-svitla-na-dnipropetrovshchini",
   "news:https://dnepr.info/uk/news/chi-pracyuvatime-vodopostachannya-u-dnipri-pid-chas-trivalih-vidklyuchen-svitla",
   "news:https://dnepr.info/uk/news/de-u-dnipri-nemaye-vodi-25-listopada-ta-koli-jiji-obicyayut-povernuti-adresi-vidklyuchen",
@@ -1042,7 +1040,9 @@
   "tg:korbanofficial/13517",
   "tg:korbanofficial/13518",
   "tg:korbanofficial/13519",
-  "tg:korbanofficial/13520"
+  "tg:korbanofficial/13520",
+  "tg:korbanofficial/13521",
+  "tg:korbanofficial/13522"
  ],
  "update_offset": 875598969,
  "board_msg_id": 267,
