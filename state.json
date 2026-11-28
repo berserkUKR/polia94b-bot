@@ -43,7 +43,6 @@
  ],
  "addr_init": true,
  "seen": [
-  "news:https://dnepr.info/uk/news/do-10-zrosla-kilkist-postrazhdalih-vnaslidok-ataki-na-dnipro-dvoye-lyudey-u-vazhkomu-stani",
   "news:https://dnepr.info/uk/news/doroga-zaymaye-do-dvoh-godin-na-zupinkah-chergi-u-dnipri-skarzhatsya-na-robotu-transportu",
   "news:https://dnepr.info/uk/news/doshch-i-do-12-gradusiv-yakoyu-bude-pogoda-u-dnipri-19-listopada",
   "news:https://dnepr.info/uk/news/doshch-i-silniy-viter-prognoz-pogodi-na-20-listopada-u-dnipri",
@@ -1042,7 +1041,8 @@
   "tg:korbanofficial/13519",
   "tg:korbanofficial/13520",
   "tg:korbanofficial/13521",
-  "tg:korbanofficial/13522"
+  "tg:korbanofficial/13522",
+  "tg:korbanofficial/13523"
  ],
  "update_offset": 875598969,
  "board_msg_id": 267,
